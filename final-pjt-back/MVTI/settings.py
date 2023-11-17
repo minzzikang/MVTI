@@ -170,4 +170,3 @@ AUTH_USER_MODEL = 'accounts.User'
 # }
 
 ACCOUNT_ADAPTER = 'accounts.adapters.CustomUserAccountAdapter'
-
