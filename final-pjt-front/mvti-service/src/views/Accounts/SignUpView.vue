@@ -14,8 +14,8 @@
                     <input type="text" name="nickname" id="nickname" class="form-control mb-3" placeholder="2자 이상">
                     <label for="age">나이</label>
                     <input type="text" name="age" id="age" class="form-control mb-3">
-                    <label for="age">본인의 MBTI는? (선택사항)</label>
-                    <input type="text" name="age" id="age" class="form-control mb-3">
+                    <label for="mbti">본인의 MBTI는? (선택사항)</label>
+                    <input type="text" name="mbti" id="mbti" class="form-control mb-3">
                     <input type="submit" class="btn btn-primary mt-3" value="가입하기">
                 </div>
             </form>
@@ -30,7 +30,10 @@ import { useMovieStore } from '@/stores/movie'
 const store = useMovieStore()
 const userId = ref('')
 const password = ref('')
+const passwordCheck = ref('')
 const nickname = ref('')
+const mbti = ref('')
+
 
 </script>
 
