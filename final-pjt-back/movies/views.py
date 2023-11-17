@@ -14,7 +14,7 @@ TMDB_API_KEY = settings.TMDB_API_KEY
 @api_view(['GET'])
 def getdata(request):
     movie_list = []
-    for i in range(1, 2):
+    for i in range(1, 300):
         url = f"{TMDB_URL}movie/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
         movies = requests.get(url).json()
 
@@ -37,7 +37,5 @@ def getdata(request):
 
     with open('movies.json', 'w', encoding='UTF-8') as m:
         json.dump(movie_list, m, ensure_ascii=False, indent=4)
-
-    print(movie_list)
 
     return Response(movie_list)
