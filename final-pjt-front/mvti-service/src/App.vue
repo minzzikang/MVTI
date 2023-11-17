@@ -11,9 +11,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <RouterView />
+  <div>
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
-
+div {
+  background-color: rgb(20, 20, 20);
+  height: 100vh;
+  margin: 0;
+}
 </style>
