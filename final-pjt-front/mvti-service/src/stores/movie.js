@@ -21,25 +21,26 @@ export const useMovieStore = defineStore('movie', () => {
   const getMovies = function () {
     axios({
       method: 'get',
-      url: `${API_URL}/api/v1/`,
-      headers: {
-        Authorization: `Token ${token.value}`
-      }
+      url: `${API_URL}/api/v1/getdata/`,
+      // headers: {
+      //   Authorization: `Token ${token.value}`
+      // }
     }).then((res) => {
       movies.value = res.data
+      console.log(res.data)
     }).catch((err) => {
       console.log(err)
     })
   }
 
   const signUp = function (payload) {
-    const { userId, password, passwordCheck } = payload
+    const { username, password, passwordCheck, nickname, age, mbti } = payload
 
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
       data: {
-        userId, password, passwordCheck
+        username, password, passwordCheck, nickname, age, mbti
       }
     }).then((res) => {
       console.log(res)
@@ -50,13 +51,13 @@ export const useMovieStore = defineStore('movie', () => {
   }
 
   const logIn = function (payload) {
-    const { userId, password } = payload
+    const { username, password } = payload
 
     axios({
       method: 'post',
       url: `${API_URL}/accounts/login/`,
       data: {
-        userId, password
+        username, password
       }
     }).then((res) => {
       console.log(res.data)
@@ -65,5 +66,5 @@ export const useMovieStore = defineStore('movie', () => {
       console.log(err)
     })
   }
-  return { movies, API_URL }
+  return { movies, API_URL, signUp }
 })

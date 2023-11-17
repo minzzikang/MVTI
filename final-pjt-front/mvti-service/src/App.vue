@@ -5,9 +5,9 @@ import { onMounted } from 'vue'
 
 const store = useMovieStore()
 
-onMounted(() => {
-  store.getMovies()
-})
+// onMounted(() => {
+//   store.getMovies()
+// })
 </script>
 
 <template>
