@@ -164,3 +164,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+# REST_AUTH_REGISTER_SERIALIZERS = {
+#     'REGISTER_SERIALIZER': 'accounts.serializers.SignUpSerializer'
+# }
+
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomUserAccountAdapter'
+
