@@ -69,8 +69,8 @@ const signUp = function () {
         password1: password1.value,
         password2: password2.value,
         nickname: nickname.value,
+        mbti: mbti.value,
         age: age.value,
-        mbti: mbti.value
     }
     store.signUp(payload)
 }
