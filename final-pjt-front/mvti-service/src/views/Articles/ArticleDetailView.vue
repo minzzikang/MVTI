@@ -1,8 +1,11 @@
 <template>
     <div class="container">
         <div class="card">
+            <p>작성일: {{ article.created_at }}</p>
+            <p>수정일: {{ article.updated_at }}</p>
             <h3>{{ article.title }}</h3>
             <p>{{ article.content }}</p>
+            <CommentList />
         </div>
     </div>
 </template>
@@ -12,6 +15,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMovieStore } from '@/stores/movie'
 import axios from 'axios'
+import CommentList from '@/components/Articles/CommentList.vue'
 
 const route = useRoute()
 const store = useMovieStore()
