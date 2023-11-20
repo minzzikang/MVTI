@@ -1,7 +1,9 @@
 <template>
-    <div>
-        <img src="" alt="poster">
-        <p>{{ article.title }}</p>
+    <div class="container">
+        <div class="card">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.content }}</p>
+        </div>
     </div>
 </template>
 
@@ -15,12 +17,12 @@ const route = useRoute()
 const store = useMovieStore()
 
 const article = ref('')
-const articleId = route.params.id
+const articleId = ref(route.params.id)
 
 onMounted(() => {
     axios({
         method: 'get',
-        url: `${store.API_URL}/community/article/${articleId}`,
+        url: `${store.API_URL}/community/article/${articleId.value}`,
         headers: {
             Authorization: `Token ${store.token}`
         }
