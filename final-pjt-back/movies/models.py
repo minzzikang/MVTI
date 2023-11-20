@@ -8,7 +8,7 @@ class Genre(models.Model):
 class Movie(models.Model):
     adult = models.BooleanField()
     genres = models.ManyToManyField(Genre)
-    id = models.IntegerField(primary_key=True)
+    movie_id = models.IntegerField()
     overview = models.TextField()
     popularity = models.FloatField()
     poster_path = models.CharField(max_length=200)
