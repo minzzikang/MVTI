@@ -3,9 +3,11 @@
         <div class="card">
             <p>작성일: {{ article.created_at }}</p>
             <p>수정일: {{ article.updated_at }}</p>
+            <p>{{ article }}</p>
             <h3>{{ article.title }}</h3>
             <p>{{ article.content }}</p>
-            <CommentList />
+            <CommentList 
+            :article="article"/>
         </div>
     </div>
 </template>
