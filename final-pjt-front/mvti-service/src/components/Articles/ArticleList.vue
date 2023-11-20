@@ -3,7 +3,8 @@
         <div>
             <ArticleCard 
             v-for="article in articles" :key="article.id"
-            :article="article"/>
+            :article="article"
+            @click="goDetail(article)"/>
         </div>
     </div>
 </template>
@@ -13,8 +14,10 @@ import ArticleCard from '@/components/Articles/ArticleCard.vue'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useMovieStore } from '@/stores/movie'
+import { useRouter } from 'vue-router'
 
 const store = useMovieStore()
+const router = useRouter()
 const articles = ref([])
 
 onMounted(() => {
@@ -32,6 +35,11 @@ onMounted(() => {
         console.log(err)
     })
 })
+
+const goDetail = function (article) {
+    console.log(article.id)
+    router.push({ name: 'articleDetail', params: { id: `${article.id}`}})
+}
 
 </script>
 
