@@ -3,11 +3,12 @@
         <div class="card">
             <p>작성일: {{ article.created_at }}</p>
             <p>수정일: {{ article.updated_at }}</p>
-            <p>{{ article }}</p>
+            <p>작성자: {{ article.username }}</p>
+            <hr>
             <h3>{{ article.title }}</h3>
             <p>{{ article.content }}</p>
-            <CommentList 
-            :article="article"/>
+            <hr>
+            <CommentList :article="article" @new-comment="handleNewComment"/>
         </div>
     </div>
 </template>
@@ -40,6 +41,10 @@ onMounted(() => {
       console.error(err)
     })
 })
+
+const handleNewComment = (newComment) => {
+    article.value.articlecomment_set.push(newComment)
+}
 
 </script>
 

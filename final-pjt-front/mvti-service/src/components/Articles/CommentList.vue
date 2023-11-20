@@ -22,15 +22,18 @@ import { useMovieStore } from '@/stores/movie'
 const route = useRoute()
 const store = useMovieStore()
 const content = ref('')
+const emit = defineEmits(['newComment'])
 
-defineProps({
+const props = defineProps({
     article: Object
 })
+
+const articleId = ref(route.params.id)
 
 const createComment = function () {
     axios({
         method: 'post',
-        url: `${store.API_URL}/community/comment/`,
+        url: `${store.API_URL}/community/article/${articleId.value}/comment`,
         data: {
             article: route.params.id,
             content: content.value
@@ -39,7 +42,7 @@ const createComment = function () {
             Authorization: `Token ${store.token}`
         },
     }).then(res => {
-        article.value.articlecomment_set.push(res.data)
+        emit('newComment', res.data)
         content.value = ''
     }).catch(err => {
         console.log(err)
