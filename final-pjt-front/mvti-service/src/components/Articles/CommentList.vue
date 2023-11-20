@@ -23,6 +23,10 @@ const route = useRoute()
 const store = useMovieStore()
 const content = ref('')
 
+defineProps({
+    article: Object
+})
+
 const createComment = function () {
     axios({
         method: 'post',
@@ -30,7 +34,10 @@ const createComment = function () {
         data: {
             article: route.params.id,
             content: content.value
-        }
+        },
+        headers: {
+            Authorization: `Token ${store.token}`
+        },
     }).then(res => {
         article.value.articlecomment_set.push(res.data)
         content.value = ''
