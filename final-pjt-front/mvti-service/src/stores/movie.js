@@ -62,9 +62,10 @@ export const useMovieStore = defineStore('movie', () => {
     }).then((res) => {
       console.log(res.data)
       token.value = res.data.key
+      router.push({ name: 'recommend' })
     }).catch((err) => {
       console.log(err)
     })
   }
-  return { movies, API_URL, signUp }
+  return { movies, API_URL, isLogin, signUp, logIn }
 })

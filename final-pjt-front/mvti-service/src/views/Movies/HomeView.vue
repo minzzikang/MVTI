@@ -4,9 +4,16 @@ import { ref } from 'vue'
 import { useMovieStore } from '@/stores/movie'
 
 const store = useMovieStore()
-const userId = ref('')
+const username = ref('')
 const password = ref('')
 
+const logIn = function () {
+    const payload = {
+    username: username.value,
+    password: password.value
+  }
+  store.logIn(payload)
+}
 
 </script>
 
@@ -20,7 +27,7 @@ const password = ref('')
                 <div class="card w-25 p-2">
                     <form @submit.prevent="logIn" class="card-body">
                         <input class="form-control mb-2" type="text" placeholder="아이디를 입력하세요."
-                            v-model.trim="userId">
+                            v-model.trim="username">
                         <input class="form-control mb-2" type="password" placeholder="비밀번호를 입력하세요."
                             v-model.trim="password">
                         <div class="d-flex justify-content-between">
