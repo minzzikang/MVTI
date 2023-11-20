@@ -6,11 +6,16 @@ import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import 'bootstrap/dist/css/bootstrap.css'
 import App from './App.vue'
 import router from './router'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 const app = createApp(App)
+const pinia = createPinia()
+
 app.component('font-awesome-icon', FontAwesomeIcon)
 
-app.use(createPinia())
+pinia.use(piniaPluginPersistedstate)
+// app.use(createPinia())
+app.use(pinia)
 
 library.add(faUserSecret)
 
@@ -18,4 +23,3 @@ app.use(router)
 
 app.mount('#app')
 
-// 로컬스토리지에 저장하는거 추가해야 될수도

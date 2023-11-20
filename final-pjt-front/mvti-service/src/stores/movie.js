@@ -21,10 +21,10 @@ export const useMovieStore = defineStore('movie', () => {
   const getMovies = function () {
     axios({
       method: 'get',
-      url: `${API_URL}/api/v1/getdata/`,
-      // headers: {
-      //   Authorization: `Token ${token.value}`
-      // }
+      url: `${API_URL}/api/v1/`,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
     }).then((res) => {
       movies.value = res.data
       console.log(res.data)
@@ -60,12 +60,12 @@ export const useMovieStore = defineStore('movie', () => {
         username, password
       }
     }).then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
       token.value = res.data.key
       router.push({ name: 'recommend' })
     }).catch((err) => {
       console.log(err)
     })
   }
-  return { movies, API_URL, isLogin, signUp, logIn }
-})
+  return { movies, token, API_URL, isLogin, signUp, logIn }
+}, { persist: true })
