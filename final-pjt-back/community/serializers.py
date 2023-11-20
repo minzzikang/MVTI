@@ -9,8 +9,9 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 class ArticleCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        Model = Article
+        model = Article
         fields = ('title', 'content',)
+        read_only_fields = ('user',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
