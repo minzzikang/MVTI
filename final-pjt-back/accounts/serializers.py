@@ -9,7 +9,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 class CustomRegisterSerializer(RegisterSerializer):
     # 추가할 필드들을 정의합니다.
     nickname = serializers.CharField(required=False, allow_blank=True, max_length=30)
-    mbti = serializers.CharField(max_length=4, required=False)
+    mbti = serializers.CharField(required=False, allow_blank=True, max_length=4)
     age = serializers.IntegerField(required=False)
 
     def get_cleaned_data(self):

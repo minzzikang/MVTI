@@ -34,7 +34,7 @@ def getdata(request):
                     'movie_like_users': []
                 }
                 movie_list.append(movie)
-                # serializer = MovieSerializer(movie)
-                # print(serializer.data)
+                serializer = MovieSerializer(movie)
+                print(serializer.data)
     # return Response(serializer.data)
     return Response(movie_list)
