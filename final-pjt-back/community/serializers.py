@@ -16,6 +16,7 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Articlecomment
         fields = '__all__'
