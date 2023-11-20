@@ -13,7 +13,7 @@ TMDB_API_KEY = settings.TMDB_API_KEY
 # api_key로 데이터 받아오기
 @api_view(['GET'])
 def getdata(request):
-    # movie_list = []
+    movie_list = []
     for i in range(1, 2):
         url = f"{TMDB_URL}movie/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
         movies = requests.get(url).json()
@@ -33,6 +33,8 @@ def getdata(request):
                     'vote_count': movie['vote_count'],
                     'movie_like_users': []
                 }
-                serializer = MovieSerializer(movie)
-
-    return Response(serializer.data)
+                movie_list.append(movie)
+                # serializer = MovieSerializer(movie)
+                # print(serializer.data)
+    # return Response(serializer.data)
+    return Response(movie_list)
