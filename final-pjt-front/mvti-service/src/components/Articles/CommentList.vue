@@ -1,14 +1,16 @@
 <template>
     <div>
-        <form @submit.prevent="createComment">
-            <label for="comment">댓글 내용: </label>
-            <input type="text" id="comment" name="comment" v-model="content" placeholder="댓글을 입력하세요.">
-            <input type="submit" value="등록">
+        <form @submit.prevent="createComment" class="comment-form mb-3">
+            <div class="input-group">
+                <input type="text" id="comment" name="comment" v-model="content" placeholder="댓글을 입력하세요." class="form-control">
+                <input type="submit" value="등록" class="btn btn-dark">
+            </div>
         </form>
         <p v-for="comment in article.articlecomment_set"
             :key="comment.id"
             :comment="comment">
             {{ comment.id }} : {{ comment.content }}
+            <hr>
         </p>
     </div>
 </template>
@@ -52,5 +54,12 @@ const createComment = function () {
 </script>
 
 <style scoped>
+.comment-form {
+    display: flex;
+    flex-direction: column;   
+}
 
+.input-group {
+    display: flex;
+}
 </style>

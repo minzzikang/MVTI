@@ -1,8 +1,7 @@
 <template>
-    <div>
+    <div class="container">
         <div style="color: white;">
-            <p>userpage</p>
-            <p>{{ user.username }}</p>
+            <h2>{{ user.username }} 님의 프로필</h2>
         </div>
         <UserLikeList />
         <UserCommentMovieList />

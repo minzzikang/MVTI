@@ -1,10 +1,9 @@
 <template>
     <div>
-        <div>
+        <div class="container p-2">
             <ArticleCard 
             v-for="article in articles" :key="article.id"
-            :article="article"
-            @click="goDetail(article)"/>
+            :article="article"/>
         </div>
     </div>
 </template>
@@ -17,7 +16,6 @@ import { useMovieStore } from '@/stores/movie'
 import { useRouter } from 'vue-router'
 
 const store = useMovieStore()
-const router = useRouter()
 const articles = ref([])
 
 onMounted(() => {
@@ -36,13 +34,10 @@ onMounted(() => {
     })
 })
 
-const goDetail = function (article) {
-    console.log(article.id)
-    router.push({ name: 'articleDetail', params: { id: `${article.id}`}})
-}
-
 </script>
 
 <style scoped>
-
+.container {
+    background-color: white;
+}
 </style>
