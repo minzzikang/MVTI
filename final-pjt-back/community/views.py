@@ -75,6 +75,14 @@ def comment_detail(request, comment_pk):
             serializer.save()
             return Response(serializer.data)
         
+@api_view(['POST'])
+def likes(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    if article.article_like_users.filter(pk=request.user.pk).exists():
+        article.article_like_users.remove(request.user)
+    else:
+        article.article_like_users.add(request.user)
+    return Response(article.article_like_users)
 
 
 # @api_view(['GET', 'POST'])
