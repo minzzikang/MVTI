@@ -17,8 +17,8 @@ class CustomRegisterSerializer(RegisterSerializer):
             'username': self.validated_data.get('username', ''),
             'password1': self.validated_data.get('password1', ''),
             'nickname': self.validated_data.get('nickname', ''),
-            'mbti': self.validated_data.get('age', ''),
-            'age': self.validated_data.get('money', ''),
+            'mbti': self.validated_data.get('mbti', ''),
+            'age': self.validated_data.get('age', ''),
         }
     
     def save(self, request):

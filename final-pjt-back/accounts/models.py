@@ -33,8 +33,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         email = data.get("email")
         username = data.get("username")
         nickname = data.get("nickname")
-        age = data.get("age")
         mbti = data.get("mbti")
+        age = data.get("age")
 
         user_email(user, email)
         user_username(user, username)
@@ -44,10 +44,10 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user_field(user, "last_name", last_name)
         if nickname:
             user_field(user, "nickname", nickname)
-        if age:
-            user.age = age
         if mbti:
             user.mbti = mbti
+        if age:
+            user.age = age
         if "password1" in data:
             user.set_password(data["password1"])
         else:
