@@ -47,7 +47,7 @@ def getMovies(request):
     #             if serializer.is_valid(raise_exception=True):
     #                 serializer.save()
     # return Response(serializer.data)
-    return Response(movie_list)    
+    return Response(movie_list)
 
 @api_view(['GET'])
 def getGenres(request):
