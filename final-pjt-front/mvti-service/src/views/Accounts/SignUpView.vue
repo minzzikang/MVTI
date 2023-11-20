@@ -8,9 +8,9 @@
                     <input type="text" name="username" id="username" class="form-control mb-3" v-model.trim="username">
                     <label for="PW">비밀번호</label>
                     <input type="password" name="PW" id="PW" class="form-control mb-3" 
-                        placeholder="영문, 숫자, 특문 중 2개 조합 8자 이상" v-model.trim="password">
+                        placeholder="영문, 숫자, 특문 중 2개 조합 8자 이상" v-model.trim="password1">
                     <label for="pwCheck">비밀번호 확인</label>
-                    <input type="password" name="pwCheck" id="pwCheck" class="form-control mb-3" v-model.trim="passwordCheck">
+                    <input type="password" name="pwCheck" id="pwCheck" class="form-control mb-3" v-model.trim="password2">
                     
                     <p v-if="!passwordMatch" class="text-danger">
                         비밀번호가 일치하지 않습니다.
@@ -43,8 +43,8 @@ import { useMovieStore } from '@/stores/movie'
 const store = useMovieStore()
 
 const username = ref('')
-const password = ref('')
-const passwordCheck = ref('')
+const password1 = ref('')
+const password2 = ref('')
 const nickname = ref('')
 const age = ref('')
 const mbti = ref('')
@@ -53,21 +53,21 @@ const passwordMatch = ref(true)
 const allFilled = ref(true)
 
 const signUp = function () {
-    allFilled.value = username.value && password.value && passwordCheck.value && nickname.value && age.value
+    // allFilled.value = username.value && password.value && passwordCheck.value && nickname.value && age.value
 
-    if (!allFilled.value) {
-        return
-    }
+    // if (!allFilled.value) {
+    //     return
+    // }
 
-    if (password.value !== passwordCheck.value) {
-        passwordMatch.value = false
-        return
-    }
+    // if (password.value !== passwordCheck.value) {
+    //     passwordMatch.value = false
+    //     return
+    // }
 
     const payload = {
         username: username.value,
-        password: password.value,
-        passwordCheck: passwordCheck.value,
+        password1: password1.value,
+        password2: password2.value,
         nickname: nickname.value,
         age: age.value,
         mbti: mbti.value
@@ -75,9 +75,9 @@ const signUp = function () {
     store.signUp(payload)
 }
 
-watch([password, passwordCheck], () => {
-    passwordMatch.value = password.value === passwordCheck.value
-})
+// watch([password, passwordCheck], () => {
+//     passwordMatch.value = password.value === passwordCheck.value
+// })
 
 </script>
 

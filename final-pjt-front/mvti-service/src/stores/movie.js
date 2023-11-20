@@ -34,13 +34,13 @@ export const useMovieStore = defineStore('movie', () => {
   }
 
   const signUp = function (payload) {
-    const { username, password, passwordCheck, nickname, age, mbti } = payload
+    const { username, password1, password2, nickname, age, mbti } = payload
 
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
       data: {
-        username, password, passwordCheck, nickname, age, mbti
+        username, password1, password2, nickname, age, mbti
       }
     }).then((res) => {
       console.log(res)
