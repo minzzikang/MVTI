@@ -1,11 +1,11 @@
 <template>
     <div>
-
+        <ArticleList />
     </div>
 </template>
 
 <script setup>
-
+import ArticleList from '@/components/Articles/ArticleList.vue'
 </script>
 
 <style scoped>
