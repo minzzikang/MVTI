@@ -12,7 +12,10 @@
                 <p class="mb-0">작성일: {{ article.created_at }}</p>
                 <p>수정일: {{ article.updated_at }}</p>
             </div>
-            <CommentList :article="article" @new-comment="handleNewComment"/>
+            <CommentList :article="article"
+                @new-comment="handleNewComment"
+                @delete-comment="handleDeleteComment"
+            />
         </div>
     </div>
 </template>
@@ -51,9 +54,15 @@ const handleNewComment = (newComment) => {
     article.value.articlecomment_set.push(newComment)
 }
 
+const handleDeleteComment = (commentId) => {
+    const index = article.value.articlecomment_set.findIndex((comment) => comment.id === commentId)
+    article.value.articlecomment_set.splice(index, 1)
+}
+
 const goBack = function () {
     router.push({ name: 'article'})
 }
+
 </script>
 
 <style scoped>
