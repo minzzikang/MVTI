@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUserSecret, faCircleChevronLeft, faHouseUser, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faCircleChevronLeft, faHouseUser, faTrashCan} from '@fortawesome/free-solid-svg-icons'
 import 'bootstrap/dist/css/bootstrap.css'
 
 import App from './App.vue'
@@ -19,7 +19,7 @@ pinia.use(piniaPluginPersistedstate)
 // app.use(createPinia())
 app.use(pinia)
 
-library.add(faUserSecret, faCircleChevronLeft, faHouseUser, faTrashCan)
+library.add(faPen, faCircleChevronLeft, faHouseUser, faTrashCan)
 
 app.use(router)
 app.mount('#app')

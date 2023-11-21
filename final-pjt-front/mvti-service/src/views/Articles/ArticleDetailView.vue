@@ -16,6 +16,10 @@
                 @new-comment="handleNewComment"
                 @delete-comment="handleDeleteComment"
             />
+            <div>
+                <font-awesome-icon :icon="['fas', 'pen']" class="ms-2" />
+                <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"/>
+            </div>
         </div>
     </div>
 </template>
