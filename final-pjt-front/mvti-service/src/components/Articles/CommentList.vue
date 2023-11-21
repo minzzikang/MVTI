@@ -9,9 +9,21 @@
         <p v-for="comment in article.articlecomment_set"
             :key="comment.id"
             :comment="comment">
-            {{ comment.id }} : {{ comment.content }}
-            <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"
-                @click="deleteComment(comment.id)"/>
+            <div v-if="isEditing[comment.id]" class="comment-group">
+                <input type="text" v-model="editingContent[comment.id]" class="form-control" />
+                <font-awesome-icon :icon="['fas', 'circle-check']" size='xl' class="ms-3"
+                    @click="saveEdit(comment.id)"/>
+                <font-awesome-icon :icon="['fas', 'circle-xmark']" size='xl' class="ms-2"
+                    @click="cancelEdit(comment.id)"/>
+            </div>
+            <div v-else>
+                <span class="fw-bold">{{ comment.username }}</span>
+                <span class="ms-4">{{ comment.content }}</span>
+                <font-awesome-icon :icon="['fas', 'pen']" class="ms-4" 
+                    @click="startEdit(comment)"/>
+                <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"
+                    @click="deleteComment(comment.id)"/>
+            </div>
             <hr>
         </p>
     </div>
@@ -26,13 +38,29 @@ import { useMovieStore } from '@/stores/movie'
 const route = useRoute()
 const store = useMovieStore()
 const content = ref('')
-const emit = defineEmits(['newComment', 'deleteComment'])
+const emit = defineEmits(['newComment', 'deleteComment', 'updateComment'])
 
 const props = defineProps({
     article: Object
 })
 
 const articleId = ref(route.params.id)
+const isEditing = ref({})
+const editingContent = ref({})
+
+const startEdit = (comment) => {
+    isEditing.value[comment.id] = true
+    editingContent.value[comment.id] = comment.content
+}
+
+const saveEdit = (commentId) => {
+    updateComment(commentId, editingContent.value[commentId])
+    isEditing.value[commentId] = false
+}
+
+const cancelEdit = (commentId) => {
+    isEditing.value[commentId] = false
+}
 
 const createComment = function () {
     axios({
@@ -48,6 +76,23 @@ const createComment = function () {
     }).then(res => {
         emit('newComment', res.data)
         content.value = ''
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+const updateComment = function (commentId, newContent) {
+    axios({
+        method: 'put',
+        url: `${store.API_URL}/community/comment/${commentId}`,
+        data: {
+            content: newContent
+        },
+        headers: {
+            Authorization: `Token ${store.token}`
+        }
+    }).then(res => {
+        emit('updateComment', res.data)
     }).catch(err => {
         console.log(err)
     })
@@ -77,5 +122,9 @@ const deleteComment = function (commentId) {
 
 .input-group {
     display: flex;
+}
+.comment-group {
+    display: flex;
+    align-items: center;
 }
 </style>
