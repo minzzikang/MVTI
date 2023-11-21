@@ -20,7 +20,8 @@
             <div>
                 <font-awesome-icon :icon="['fas', 'pen']" class="ms-2" 
                     @click="goEdit"/>
-                <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"/>
+                <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"
+                    @click="deleteArticle(article.id)"/>
             </div>
         </div>
     </div>
@@ -76,6 +77,20 @@ const goBack = function () {
 
 const goEdit = function () {
     router.push({ name: 'articleEdit'})
+}
+
+const deleteArticle = function (articleId) {
+    axios({
+        method: 'delete',
+        url: `${store.API_URL}/community/article/${articleId}`,
+        headers: {
+            Authorization: `Token ${store.token}`
+        }
+    }).then(() => {
+        router.push({ name: 'article'})
+    }).catch(err => {
+        console.log(err)
+    })
 }
 
 </script>
