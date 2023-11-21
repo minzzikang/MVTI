@@ -5,9 +5,8 @@
                 {{ article.title }}
             </h3>
             <div class="like-post">
-                <font-awesome-icon :icon="[article.isLike ? 'fas' : 'far', 'heart']" 
-                    @click="addLike(article.id)"/>
-                <span class="ms-2">{{ article.likeCount }}</span>
+                <font-awesome-icon :icon="['fas', 'heart']" />
+                <span class="ms-2">{{ article.article_like_users.length }}</span>
             </div>
             <div class="d-flex align-items-center">
                 <p class="mt-3">{{ article.username }}</p>
@@ -27,12 +26,7 @@ defineProps({
     article: Object
 })
 
-const emit = defineEmits(['addLike'])
 const router = useRouter()
-
-const addLike = function (articleId) {
-    emit('addLike', articleId)
-}
 
 const goDetail = function (article) {
     // console.log(article.id)

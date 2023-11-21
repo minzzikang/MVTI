@@ -8,16 +8,19 @@
             </div>
             <p>{{ article.username }}</p>
             <h5>{{ article.content }}</h5>
-            <div class="dates">
-                <p class="mb-0">작성일: {{ article.created_at }}</p>
-                <p>수정일: {{ article.updated_at }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <font-awesome-icon :icon="['fas', 'heart']" />
+                <div class="dates">
+                    <p class="mb-0">작성일: {{ article.created_at }}</p>
+                    <p>수정일: {{ article.updated_at }}</p>
+                </div>
             </div>
             <CommentList :article="article"
                 @new-comment="handleNewComment"
                 @delete-comment="handleDeleteComment"
                 @update-comment="handleUpdateComment"
             />
-            <div>
+            <div class="d-flex align-items-center justify-content-end">
                 <font-awesome-icon :icon="['fas', 'pen']" class="ms-2" 
                     @click="goEdit"/>
                 <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"
@@ -50,10 +53,11 @@ onMounted(() => {
         }
     })
     .then((res) => {
-      article.value = res.data
+        console.log(res)
+        article.value = res.data
     })
     .catch((err) => {
-      console.error(err)
+        console.error(err)
     })
 })
 
