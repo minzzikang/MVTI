@@ -1,10 +1,13 @@
 <template>
-    <div>
-        <h3 class="text-white">오늘의 추천 영화</h3>
-        <RecommendCard 
-            v-for="movie in store.movies"
-            :key="movie.id"
-            :movie="movie"/>
+    <div class="container">
+        <h3 class="text-white mb-3 mt-3">오늘의 추천 영화</h3>
+        <div class="d-flex">
+            <RecommendCard 
+                v-for="movie in store.movies"
+                :key="movie.id"
+                :movie="movie"
+            />
+        </div>
     </div>
 </template>
 

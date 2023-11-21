@@ -1,15 +1,14 @@
 <template>
-    <div>
-        <RouterLink :to="{ name: 'article' }">게시판</RouterLink>
-        <RecommendList />
+    <div class="d-flex">
+        <Navbar />
+        <RecommendList class="ms-3"/>
     </div>
 </template>
 
 <script setup>
 import RecommendList from '@/components/Movies/RecommendList.vue'
-import { RouterLink } from 'vue-router'
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import Navbar from '@/components/Movies/Navbar.vue'
+import { onMounted } from 'vue'
 import { useMovieStore } from '@/stores/movie'
 
 const store = useMovieStore()
@@ -17,7 +16,7 @@ const store = useMovieStore()
 onMounted(() => {
     store.getMovies()
 })
-console.log(store.movies)
+
 </script>
 
 <style scoped>
