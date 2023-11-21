@@ -1,9 +1,9 @@
 <template>
     <div>
-        <img :src="movie.poster_path" alt="poster">
-        <p>{{ movie.genre }}</p>
+        <img :src="`https://image.tmdb.org/t/p/w300/${movie.poster_path}`" alt="poster">
+        <p>{{ movie.genres }}</p>
         <h5>{{ movie.title }}</h5>
-        <p>{{ movie.overview }}</p>
+        <!-- <p>{{ movie.overview }}</p> -->
     </div>
 </template>
 
