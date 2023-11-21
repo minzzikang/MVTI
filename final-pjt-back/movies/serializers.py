@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Movie, Genre, Moviecomment
+from .models import Movie, Genre, Moviecomment, Actor, Director, Rating
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -8,7 +8,21 @@ class GenreSerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 
+class ActorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Actor
+        fields = '__all__'
+
+class DirectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Director
+        fields = '__all__'
+
+
 class MovieSerializer(serializers.ModelSerializer):
+    genres = GenreSerializer(many=True)
+    actors = ActorSerializer(many=True)
+    
     class Meta:
         model = Movie
         fields='__all__'
@@ -25,6 +39,9 @@ class CommentSerializer(serializers.ModelSerializer):
 class MovieDetailSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
     moviecomment_set = CommentSerializer(many=True, read_only=True)
+    comment_count = serializers.IntegerField(source='moviecomment_set.count', read_only=True)
+    like_count = serializers.IntegerField(source='movie_like_users.count', read_only=True)
+
     class Meta:
         model = Movie
         fields = '__all__'

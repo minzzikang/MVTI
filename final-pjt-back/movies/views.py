@@ -14,21 +14,56 @@ TMDB_API_KEY = settings.TMDB_API_KEY
 
 # api_key로 데이터 받아오기
 @api_view(['GET'])
-def getMovies(request):
-    movie_list = []
-    for i in range(1, 300):
-        url = f"{TMDB_URL}movie/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
-        movies = requests.get(url).json()
+def getdatas(request):
+
+    # 전체 데이터
+    total_list = []
+    
+    # 영화데이터 받아오기
+    # for i in range(1, 300):
+    for i in range(1, 2):
+        movie_url = f"{TMDB_URL}movie/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
+        movies = requests.get(movie_url).json()
 
         for movie in movies['results']:
             if movie.get('release_date', '') and (movie.get('overview') != '' and movie.get('poster_path') != None and movie.get('release_date') != None):
+                # 영화 상세 정보
+                movie_detail_url = f"{TMDB_URL}movie/{movie['id']}?api_key={TMDB_API_KEY}&language=ko-KR"
+                movie_detail = requests.get(movie_detail_url).json()
+                # 배우, 감독 정보
+                movie_people_url = f"{TMDB_URL}movie/{movie['id']}/credits?api_key={TMDB_API_KEY}&language=ko-KR"
+                movie_people = requests.get(movie_people_url).json()
+
+                actors = []
+                director = ''
+                for person in movie_people['cast']:
+                    if person['known_for_department'] == 'Acting':
+                        actors.append(person['id'])
+                        if len(actors) == 5:
+                            break
+
+                director = ''
+                for person in movie_people['cast']:
+                    if person['known_for_department'] == 'Directing':
+                        director = person['id']
+                        break
+                
+                if director == '':
+                    for person in movie_people['crew']:
+                        if person['department'] == 'Directing':
+                            director = person['id']
+                            break
+
                 fields = {
+                    'actors': actors,
                     'adult': movie['adult'],
+                    'director': director,
                     'genres': movie['genre_ids'],
                     'overview': movie['overview'],
                     'popularity': movie['popularity'],
                     'poster_path': movie['poster_path'],
                     'release_date': movie['release_date'],
+                    'runtime': movie_detail['runtime'],
                     'title': movie['title'],
                     'vote_average': movie['vote_average'],
                     'vote_count': movie['vote_count'],
@@ -39,24 +74,11 @@ def getMovies(request):
                     'pk': movie['id'],
                     'fields': fields
                 }
+                total_list.append(movie)
 
-    #             movie_list.append(movie)
-    #             serializer = MovieSerializer(data=movie)
-    #             if serializer.is_valid(raise_exception=True):
-    #                 serializer.save()
-    # return Response(serializer.data)
-
-    with open("movies/fixtures/movie_data.json", "w", encoding="utf-8") as w:
-        json.dump(movie_list, w, indent=4, ensure_ascii=False)
-
-    return Response(movie_list)
-
-
-@api_view(['GET'])
-def getGenres(request):
-    url = f"{TMDB_URL}genre/movie/list?api_key={TMDB_API_KEY}&language=ko-KR"
-    genres = requests.get(url).json()
-    genre_list = []
+    # 장르 받아오기
+    genre_url = f"{TMDB_URL}genre/movie/list?api_key={TMDB_API_KEY}&language=ko-KR"
+    genres = requests.get(genre_url).json()
     for genre in genres['genres']:
         fields = {
             'name':genre['name']
@@ -67,16 +89,50 @@ def getGenres(request):
             'pk': genre['id'],
             'fields': fields
         }
-        genre_list.append(genre)
+        total_list.append(genre)
 
-    #     serializer = GenreSerializer(data=genre)
-    #     if serializer.is_valid(raise_exception=True):
-    #         serializer.save()
-    # return Response(serializer.data, status=status.HTTP_200_OK)
-    with open("movies/fixtures/movie_genre.json", "w", encoding="utf-8") as w:
-        json.dump(genre_list, w, indent=4, ensure_ascii=False)
+    # 배우, 감독 받아오기
+    # for i in range(1, 500):
+    for i in range(1, 2):
+        people_url = f"{TMDB_URL}person/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
+        people = requests.get(people_url).json()
+        for person in people['results']:
+            if person['known_for_department'] == 'Acting':
+                fields = {
+                    'name':person['name']
+                }
+                actor = {
+                    'model': 'movies.Actor',
+                    'pk': person['id'],
+                    'fields': fields
+                }
+                total_list.append(actor)
 
-    return Response(genre_list)
+            if person['known_for_department'] == 'Directing':
+                fields = {
+                    'name':person['name']
+                }
+                director = {
+                    'model': 'movies.Director',
+                    'pk': person['id'],
+                    'fields': fields
+                }
+                total_list.append(director)
+
+    #             movie_list.append(movie)
+    #             serializer = MovieSerializer(data=movie)
+    #             if serializer.is_valid(raise_exception=True):
+    #                 serializer.save()
+    # return Response(serializer.data)
+
+    with open("movies/fixtures/datas.json", "w", encoding="utf-8") as w:
+        json.dump(total_list, w, indent=4, ensure_ascii=False)
+
+    return Response(total_list)
+
+
+
+
 
 
 # 전체 movie 정보 받아오기
