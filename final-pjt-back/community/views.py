@@ -7,6 +7,7 @@ from .models import Article, Articlecomment
 from .serializers import ArticleListSerializer, ArticleCreateSerializer, ArticleDetailSerializer, CommentSerializer
 # Create your views here.
 
+# 게시글 전체 조회, 생성
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
@@ -21,6 +22,7 @@ def article_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
 
+# 단일 게시글 조회, 삭제, 수정
 @api_view(['GET', 'DELETE', 'PUT'])
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
@@ -41,6 +43,7 @@ def article_detail(request, article_pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# 댓글 전체 조회
 @api_view(['GET'])
 def comment_list(request):
     comments = Articlecomment.objects.all()
@@ -48,6 +51,7 @@ def comment_list(request):
     return Response(serializer.data)
 
 
+# 게시글 댓글 생성
 @api_view(['POST'])
 def comment_create(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
@@ -57,6 +61,7 @@ def comment_create(request, article_pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
+# 게시글 댓글 조회, 삭제, 수정
 @api_view(['GET', 'DELETE', 'PUT'])
 def comment_detail(request, comment_pk):
     comment = get_object_or_404(Articlecomment, pk=comment_pk)
@@ -75,6 +80,8 @@ def comment_detail(request, comment_pk):
             serializer.save()
             return Response(serializer.data)
         
+        
+# 게시글 좋아요
 @api_view(['POST'])
 def likes(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
@@ -82,7 +89,7 @@ def likes(request, article_pk):
         article.article_like_users.remove(request.user)
     else:
         article.article_like_users.add(request.user)
-    return Response(article.article_like_users)
+    return Response(status=status.HTTP_200_OK)
 
 
 # @api_view(['GET', 'POST'])

@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import requests, json
 from django.conf import settings
-from .serializers import MovieSerializer, GenreSerializer
+from .models import Movie, Moviecomment
+from .serializers import MovieSerializer, MovieDetailSerializer, CommentSerializer, GenreSerializer
 
 # Create your views here.
 TMDB_URL = 'https://api.themoviedb.org/3/'
@@ -39,15 +40,17 @@ def getMovies(request):
                     'fields': fields
                 }
 
-                movie_list.append(movie)
-
-    with open("movies/fixtures/movie_data.json", "w", encoding="utf-8") as w:
-        json.dump(movie_list, w, indent=4, ensure_ascii=False)
+    #             movie_list.append(movie)
     #             serializer = MovieSerializer(data=movie)
     #             if serializer.is_valid(raise_exception=True):
     #                 serializer.save()
     # return Response(serializer.data)
+
+    with open("movies/fixtures/movie_data.json", "w", encoding="utf-8") as w:
+        json.dump(movie_list, w, indent=4, ensure_ascii=False)
+
     return Response(movie_list)
+
 
 @api_view(['GET'])
 def getGenres(request):
@@ -66,12 +69,76 @@ def getGenres(request):
         }
         genre_list.append(genre)
 
+    #     serializer = GenreSerializer(data=genre)
+    #     if serializer.is_valid(raise_exception=True):
+    #         serializer.save()
+    # return Response(serializer.data, status=status.HTTP_200_OK)
     with open("movies/fixtures/movie_genre.json", "w", encoding="utf-8") as w:
         json.dump(genre_list, w, indent=4, ensure_ascii=False)
 
     return Response(genre_list)
 
-    #     serializer = GenreSerializer(data=genre)
-    #     if serializer.is_valid(raise_exception=True):
-    #         serializer.save()
-    # return Response(serializer.data, status=status.HTTP_200_OK)
+
+# 전체 movie 정보 받아오기
+@api_view(['GET'])
+def movie_list(request):
+    movies = Movie.objects.all()
+    serializer = MovieSerializer(movies, many=True)
+    return Response(serializer.data)
+
+
+# 영화 상세정보 받아오기
+@api_view(['GET'])
+def movie_detail(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    serializer = MovieDetailSerializer(movie)
+    return Response(serializer.data)
+
+
+# 영화 전체 댓글 조회
+@api_view(['GET'])
+def comment_list(request):
+    comments = Moviecomment.objects.all()
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
+
+
+# 영화 댓글 생성
+@api_view(['POST'])
+def comment_create(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(movie=movie, user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+
+# 영화 상세정보에서 댓글 조회, 삭제, 수정
+@api_view(['GET', 'DELETE', 'PUT'])
+def comment_detail(request, comment_pk):
+    comment = get_object_or_404(Moviecomment, pk=comment_pk)
+    
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+        
+
+# 영화 좋아요(찜목록)
+@api_view(['POST'])
+def likes(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if movie.movie_like_users.filter(pk=request.user.pk).exists():
+        movie.movie_like_users.remove(request.user)
+    else:
+        movie.movie_like_users.add(request.user)
+    return Response(status=status.HTTP_200_OK)

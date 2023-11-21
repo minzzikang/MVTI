@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Movie, Moviecomment, Rating
+from .models import Movie, Moviecomment
 
 
 # Register your models here.
