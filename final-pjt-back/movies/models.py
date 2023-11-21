@@ -25,6 +25,7 @@ class Movie(models.Model):
     poster_path = models.CharField(max_length=200)
     release_date = models.DateField()
     runtime = models.IntegerField()
+    trailer_key = models.CharField(max_length=200)
     title = models.CharField(max_length=50)
     vote_average = models.FloatField()
     vote_count = models.IntegerField()
@@ -36,9 +37,4 @@ class Moviecomment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     content = models.CharField(max_length=20)
-    
-
-class Rating(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    rank = models.IntegerField()
+    rating = models.IntegerField()
