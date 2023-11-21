@@ -10,6 +10,8 @@
             :key="comment.id"
             :comment="comment">
             {{ comment.id }} : {{ comment.content }}
+            <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"
+                @click="deleteComment(comment.id)"/>
             <hr>
         </p>
     </div>
@@ -24,7 +26,7 @@ import { useMovieStore } from '@/stores/movie'
 const route = useRoute()
 const store = useMovieStore()
 const content = ref('')
-const emit = defineEmits(['newComment'])
+const emit = defineEmits(['newComment', 'deleteComment'])
 
 const props = defineProps({
     article: Object
@@ -46,6 +48,20 @@ const createComment = function () {
     }).then(res => {
         emit('newComment', res.data)
         content.value = ''
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+const deleteComment = function (commentId) {
+    axios({
+        method: 'delete',
+        url: `${store.API_URL}/community/comment/${commentId}`,
+        headers: {
+            Authorization: `Token ${store.token}`
+        }
+    }).then(res => {
+        emit('deleteComment', commentId)
     }).catch(err => {
         console.log(err)
     })
