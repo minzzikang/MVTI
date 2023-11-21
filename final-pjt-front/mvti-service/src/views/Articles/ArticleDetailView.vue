@@ -15,9 +15,11 @@
             <CommentList :article="article"
                 @new-comment="handleNewComment"
                 @delete-comment="handleDeleteComment"
+                @update-comment="handleUpdateComment"
             />
             <div>
-                <font-awesome-icon :icon="['fas', 'pen']" class="ms-2" />
+                <font-awesome-icon :icon="['fas', 'pen']" class="ms-2" 
+                    @click="goEdit"/>
                 <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"/>
             </div>
         </div>
@@ -63,8 +65,17 @@ const handleDeleteComment = (commentId) => {
     article.value.articlecomment_set.splice(index, 1)
 }
 
+const handleUpdateComment = (updatedComment) => {
+    const index = article.value.articlecomment_set.findIndex((comment) => comment.id === updatedComment.id)
+    article.value.articlecomment_set[index] = updatedComment
+}
+
 const goBack = function () {
     router.push({ name: 'article'})
+}
+
+const goEdit = function () {
+    router.push({ name: 'articleEdit'})
 }
 
 </script>

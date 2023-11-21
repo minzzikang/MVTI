@@ -7,6 +7,7 @@ import MovieDetailView from '@/views/Movies/MovieDetailView.vue'
 import ArticleCreateView from '@/views/Articles/ArticleCreateView.vue'
 import ArticleView from '@/views/Articles/ArticleView.vue'
 import ArticleDetailView from '@/views/Articles/ArticleDetailView.vue'
+import ArticleEditView from '@/views/Articles/ArticleEditView.vue'
 import UserView from '@/views/Users/UserView.vue'
 
 const router = createRouter({
@@ -51,6 +52,11 @@ const router = createRouter({
       path: '/article/:id',
       name: 'articleDetail',
       component: ArticleDetailView
+    },
+    {
+      path: '/article/edit/:id',
+      name: 'articleEdit',
+      component: ArticleEditView
     },
     {
       path: '/user',
