@@ -19,9 +19,9 @@
             <div v-else>
                 <span class="fw-bold">{{ comment.username }}</span>
                 <span class="ms-4">{{ comment.content }}</span>
-                <font-awesome-icon :icon="['fas', 'pen']" class="ms-4" 
+                <font-awesome-icon :icon="['fas', 'pen']" style="color: #aaaaaa;" class="ms-4" 
                     @click="startEdit(comment)"/>
-                <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"
+                <font-awesome-icon :icon="['fas', 'trash-can']" style="color: #aaaaaa;" class="ms-3"
                     @click="deleteComment(comment.id)"/>
             </div>
             <hr>
