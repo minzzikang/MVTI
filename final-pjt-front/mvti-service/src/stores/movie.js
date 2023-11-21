@@ -32,23 +32,6 @@ export const useMovieStore = defineStore('movie', () => {
     })
   }
 
-  const signUp = function (payload) {
-    const { username, password1, password2, nickname, mbti, age } = payload
-
-    axios({
-      method: 'post',
-      url: `${API_URL}/accounts/signup/`,
-      data: {
-        username, password1, password2, nickname, mbti, age
-      }
-    }).then((res) => {
-      alert('회원이 되신 걸 환영합니다!')
-      router.push({ name:'home' })
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
-
   const logIn = function (payload) {
     const { username, password } = payload
 
@@ -66,5 +49,24 @@ export const useMovieStore = defineStore('movie', () => {
       console.log(err)
     })
   }
+
+  const signUp = function (payload) {
+    const { username, password1, password2, nickname, mbti, age } = payload
+
+    axios({
+      method: 'post',
+      url: `${API_URL}/accounts/signup/`,
+      data: {
+        username, password1, password2, nickname, mbti, age
+      }
+    }).then((res) => {
+      const password = password1
+      alert('회원이 되신 걸 환영합니다!')
+      logIn({ username, password})
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+  
   return { movies, token, API_URL, isLogin, getMovies, signUp, logIn }
 }, { persist: true })

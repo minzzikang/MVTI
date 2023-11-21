@@ -9,6 +9,7 @@ import ArticleView from '@/views/Articles/ArticleView.vue'
 import ArticleDetailView from '@/views/Articles/ArticleDetailView.vue'
 import ArticleEditView from '@/views/Articles/ArticleEditView.vue'
 import UserView from '@/views/Users/UserView.vue'
+import { useMovieStore } from '@/stores/movie'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,4 +67,15 @@ const router = createRouter({
   ]
 })
 
+router.beforeEach((to, from) => {
+  const store = useMovieStore()
+  if (to.name === 'recommend' && !store.isLogin) {
+    window.alert('로그인이 필요합니다.')
+    return { name: 'home'}
+  }
+  if ((to.name === 'signup' || to.name === 'home') && (store.isLogin)) {
+    window.alert('이미 로그인 되었습니다.')
+    return { name: 'recommend'}
+  }
+})
 export default router
