@@ -21,13 +21,12 @@ export const useMovieStore = defineStore('movie', () => {
   const getMovies = function () {
     axios({
       method: 'get',
-      url: `${API_URL}/api/v1/`,
+      url: `${API_URL}/api/v1/movies/`,
       headers: {
         Authorization: `Token ${token.value}`
       }
     }).then((res) => {
       movies.value = res.data
-      console.log(res.data)
     }).catch((err) => {
       console.log(err)
     })

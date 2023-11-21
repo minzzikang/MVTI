@@ -17,7 +17,7 @@ const store = useMovieStore()
 onMounted(() => {
     store.getMovies()
 })
-
+console.log(store.movies)
 </script>
 
 <style scoped>
