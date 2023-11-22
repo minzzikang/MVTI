@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
 
 export const useMovieStore = defineStore('movie', () => {
@@ -31,6 +31,24 @@ export const useMovieStore = defineStore('movie', () => {
 			console.log(err)
 		})
 	}
+
+	const route = useRoute()
+	const movie = ref('')
+	const getMovieDetail = function () {
+	  axios({
+		method: 'get',
+		url: `${API_URL}/api/v1/movies/${route.params.id}`,
+		headers: {
+		  Authorization: `Token ${token.value}`
+	  }
+	  })
+		.then((res) => {
+			movie.value = res.data
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+	  }
 
 	const logIn = function (payload) {
 		const { username, password } = payload
@@ -80,5 +98,5 @@ export const useMovieStore = defineStore('movie', () => {
 		})
 	}
 
-	return { movies, token, API_URL, isLogin, getMovies, signUp, logIn, logOut }
+	return { movies, token, API_URL, isLogin, getMovies, signUp, logIn, logOut, getMovieDetail, movie }
 }, { persist: true })
