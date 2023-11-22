@@ -34,41 +34,10 @@ def getdatas(request):
         }
         total_list.append(genre)
 
-    # 배우, 감독 받아오기
-    director_list = []
-    actor_list = []
-    for i in range(1, 500):
-        people_url = f"{TMDB_URL}person/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
-        people = requests.get(people_url).json()
-        for person in people['results']:
-            if person['known_for_department'] == 'Acting':
-                fields = {
-                    'name':person['name']
-                }
-                actor = {
-                    'model': 'movies.Actor',
-                    'pk': person['id'],
-                    'fields': fields
-                }
-                total_list.append(actor)
-                actor_list.append(person['id'])
-
-            if person['known_for_department'] == 'Directing':
-                fields = {
-                    'name':person['name']
-                }
-                director = {
-                    'model': 'movies.Director',
-                    'pk': person['id'],
-                    'fields': fields
-                }
-                total_list.append(director)
-                director_list.append(person['id'])
-
 
     # 영화데이터 받아오기
     # for i in range(1, 300):
-    for i in range(1, 300):
+    for i in range(1, 200):
         movie_url = f"{TMDB_URL}movie/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
         movies = requests.get(movie_url).json()
 
@@ -83,28 +52,54 @@ def getdatas(request):
                 # 예고편 정보
                 movie_trailer_url = f"{TMDB_URL}movie/{movie['id']}/videos?api_key={TMDB_API_KEY}&language=ko-KR"
                 movie_trailer = requests.get(movie_trailer_url).json()
-                print(movie_trailer)
+                # print(movie_trailer)
 
                 actors = []
-                if len(movie_people['cast']) <= 3:
+                actor_list = []
+                if len(movie_people['cast']) < 7:
                     for i in range(len(movie_people['cast'])):
                         actors.append(movie_people['cast'][i]['id'])
+                        actor_list.append(movie_people['cast'][i])
                 else:
-                    for i in range(4):
+                    for i in range(7):
                         actors.append(movie_people['cast'][i]['id'])
+                        actor_list.append(movie_people['cast'][i])
 
                 director = ''
-                for person in movie_people['crew']:
-                    if person['department'] == 'Directing':
-                        director = person['id']
+                director_list = []
+                for direct in movie_people['crew']:
+                    if direct['department'] == 'Directing':
+                        director = direct['id']
+                        director_list.append(direct)
                         break
-                
-                check = True
-                for actor in actors:
-                    if actor not in actor_list:
-                        check = False
+                print(director)
 
-                if director in director_list and check and movie_trailer['results']:
+                # 영화에 출연한 배우 받아오기
+                for actor in actor_list:
+                    fields = {
+                        'name':actor['name']
+                    }
+                    actor = {
+                        'model': 'movies.Actor',
+                        'pk': actor['id'],
+                        'fields': fields
+                    }
+                    total_list.append(actor)
+
+                # 영화 만든 감독 받아오기
+                if director_list:
+                    fields = {
+                        'name':director_list[0]['name']
+                    }
+                    directors = {
+                        'model': 'movies.Director',
+                        'pk': director_list[0]['id'],
+                        'fields': fields
+                    }
+                    total_list.append(directors)
+
+                # 영화 정보 받아오기
+                if director_list and movie_trailer['results']:
                     fields = {
                         'actors': actors,
                         'adult': movie['adult'],
@@ -138,9 +133,6 @@ def getdatas(request):
         json.dump(total_list, w, indent=4, ensure_ascii=False)
 
     return Response(total_list)
-
-
-
 
 
 
