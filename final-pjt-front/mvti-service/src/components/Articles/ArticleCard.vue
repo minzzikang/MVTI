@@ -5,8 +5,8 @@
                 {{ article.title }}
             </h3>
             <div class="like-post">
-                <font-awesome-icon :icon="['fas', 'heart']" />
-                <span class="ms-2">{{ article.article_like_users.length }}</span>
+                <font-awesome-icon :icon="['fas', 'heart']"/>
+                <span class="ms-2">{{ article.like_count }}</span>
             </div>
             <div class="d-flex align-items-center">
                 <p class="mt-3">{{ article.username }}</p>

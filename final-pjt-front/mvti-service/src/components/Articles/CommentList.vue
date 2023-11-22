@@ -33,10 +33,12 @@
 import axios from 'axios'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useArticleStore } from '@/stores/article'
 import { useMovieStore } from '@/stores/movie'
 
 const route = useRoute()
-const store = useMovieStore()
+const store = useArticleStore()
+const movieStore = useMovieStore()
 const content = ref('')
 const emit = defineEmits(['newComment', 'deleteComment', 'updateComment'])
 
@@ -71,7 +73,7 @@ const createComment = function () {
             content: content.value
         },
         headers: {
-            Authorization: `Token ${store.token}`
+            Authorization: `Token ${movieStore.token}`
         },
     }).then(res => {
         emit('newComment', res.data)
@@ -89,7 +91,7 @@ const updateComment = function (commentId, newContent) {
             content: newContent
         },
         headers: {
-            Authorization: `Token ${store.token}`
+            Authorization: `Token ${movieStore.token}`
         }
     }).then(res => {
         emit('updateComment', res.data)
@@ -103,7 +105,7 @@ const deleteComment = function (commentId) {
         method: 'delete',
         url: `${store.API_URL}/community/comment/${commentId}`,
         headers: {
-            Authorization: `Token ${store.token}`
+            Authorization: `Token ${movieStore.token}`
         }
     }).then(res => {
         emit('deleteComment', commentId)

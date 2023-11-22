@@ -2,7 +2,7 @@
     <div>
         <div class="container p-2">
             <ArticleCard 
-            v-for="article in articles" :key="article.id"
+            v-for="article in store.articles" :key="article.id"
             :article="article"
             />
         </div>
@@ -12,28 +12,15 @@
 <script setup>
 import ArticleCard from '@/components/Articles/ArticleCard.vue'
 import axios from 'axios'
-import { onMounted, ref, computed } from 'vue'
-import { useMovieStore } from '@/stores/movie'
+import { onMounted } from 'vue'
+import { useArticleStore } from '@/stores/article'
 
-const store = useMovieStore()
-const articles = ref([])
+const store = useArticleStore()
 
 onMounted(() => {
-    axios({
-        method: 'get',
-        url: `${store.API_URL}/community/article/`,
-        headers: {
-            Authorization: `Token ${store.token}`
-        }
-    })
-    .then(res => {
-        console.log(res)
-        articles.value = res.data
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    store.getArticles()
 })
+
 </script>
 
 <style scoped>
