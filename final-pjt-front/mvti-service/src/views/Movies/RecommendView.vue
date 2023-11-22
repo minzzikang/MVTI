@@ -1,14 +1,16 @@
 <template>
-    <div>
-        <Navbar />
-        <div class="wrap-today">
-            <RecommendTodayList class="ms-3" />
-        </div>
-        <div v-if="userStore.user.mbti">
-            <RecommendMbtiList class="ms-3" />
-        </div>
-        <div v-else>
-            <NoMbti class="ms-3" />
+    <div class="d-flex">
+        <Navbar class="nav-bar"/>
+        <div>
+            <div class="d-flex flex-column">
+                <RecommendTodayList class="ms-3" />
+            </div>
+            <div v-if="userStore.user.mbti">
+                <RecommendMbtiList class="ms-3" />
+            </div>
+            <div v-else>
+                <NoMbti class="ms-3" />
+            </div>
         </div>
     </div>
 </template>
@@ -33,9 +35,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.nav-bar {
+    position: sticky;
+    top: 0;
+}
 .wrap-today {
-    width: 100%;
-    overflow: scroll;
-    overflow: auto;
+
 }
 </style>
