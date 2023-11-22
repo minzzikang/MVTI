@@ -9,9 +9,8 @@
             <h5>{{ store.article.content }}</h5>
             <div class="d-flex justify-content-between align-items-center">
                 <font-awesome-icon :icon="[isLike ? 'fas' : 'far', 'heart']"
-                     @click="addLike(store.article.id)" />
+                     @click="addLike(store.article.id)"/>
                     {{ store.article.like_count }}
-                    {{ store.article.is_like }}
                 <div class="dates">
                     <p class="mb-0">작성일: {{ store.article.created_at }}</p>
                     <p>수정일: {{ store.article.updated_at }}</p>
@@ -45,26 +44,41 @@ onMounted(() => {
     store.getArticleDetail()
 })
 
-const isLike = ref(false)
+const user = ref([])
+let isLike = ref(false)
+onMounted(() => {
+    axios({
+        method: 'get',
+        url: `${movieStore.API_URL}/accounts/user`,
+        headers: {
+        Authorization: `Token ${movieStore.token}`
+        }
+    })
+    .then((res) => {
+        user.value = res.data
+        if (store.article.article_like_users.includes(user.value.pk)) {
+            isLike.value = true
+        } else {
+            isLike.value = false
+        }
+    })
+    .catch((err) => console.log(err))
+})
+
 
 const addLike = function (articleId) {
-    if (store.article.id === articleId) {
-        isLike.value = !isLike.value
-    }
-
     axios({
             method: 'post',
             url: `${store.API_URL}/community/article/${route.params.id}/likes`,
-            data: {
-                is_like: isLike.value
-            },
             headers: {
                 Authorization: `Token ${movieStore.token}`
             }
         })
-            .then(res => {
-                console.log(store.article)
+            .then((res) => {
                 store.getArticleDetail()
+                if(store.article.id === articleId) {
+                    isLike.value = !isLike.value
+                }
             })
             .catch((err) => {
                 console.error(err)
