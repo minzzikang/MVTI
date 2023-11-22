@@ -8,6 +8,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
 const goDetail = function(movie) {
     router.push({ name:'detail', params: { id: `${movie.id}` } })
 }
