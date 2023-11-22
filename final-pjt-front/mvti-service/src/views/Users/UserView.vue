@@ -1,13 +1,18 @@
 <template>
     <div class="d-flex">
         <Navbar />
-        <div class="ms-4 mt-3" style="color: white;">
+        <div class="ms-4 mt-3 d-flex flex-column" style="color: #f5f5f5;">
             <h3>{{ user.username }} 님의 프로필</h3>
-        </div>
+            <font-awesome-icon :icon="['fas', 'key']" size="xl" style="color: #f5f5f5;"
+                class="icon" @click="goUserUpdate"/>
+            <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" 
+                size="xl" style="color: #f5f5f5;"
+                @click="store.logOut"/>
         <UserLikeList />
         <UserCommentMovieList />
         <UserArticleList />
         <UserCommentArticleList />
+        </div>
     </div>
 </template>
 
@@ -21,7 +26,9 @@ import Navbar from '@/components/Movies/Navbar.vue'
 import { onMounted, ref } from 'vue'
 import { useMovieStore } from '@/stores/movie'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const store = useMovieStore()
 const user = ref([])
 
@@ -39,8 +46,14 @@ onMounted(() => {
     .catch((err) => console.log(err))
 })
 
+const goUserUpdate = function () {
+    router.push({ name: 'userUpdate'})
+}
+
 </script>
 
 <style scoped>
-
+.icon {
+    align-self: flex-start;
+}
 </style>
