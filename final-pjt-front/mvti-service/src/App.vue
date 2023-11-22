@@ -1,13 +1,6 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { useMovieStore } from '@/stores/movie'
-import { onMounted } from 'vue'
+import { RouterView } from 'vue-router'
 
-const store = useMovieStore()
-
-// onMounted(() => {
-//   store.getMovies()
-// })
 </script>
 
 <template>
