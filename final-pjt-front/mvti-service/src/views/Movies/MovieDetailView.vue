@@ -1,7 +1,13 @@
 <template>
     <div class="d-flex p-4">
         <Navbar />
-        <img :src="`https://image.tmdb.org/t/p/w300/${store.movie.poster_path}`" alt="poster">
+        <div class="d-flex flex-column">
+            <img :src="`https://image.tmdb.org/t/p/w300/${store.movie.poster_path}`" alt="poster">
+            <font-awesome-icon :icon="['fas', 'circle-chevron-left']"
+                style="color: #f5f5f5;" size="2xl" class="back-icon"
+                @click="goBack"/>
+            <span>다른 영화</span>
+        </div>
         <div class="d-flex flex-column ms-3">
             <div class="title-box">
                 <h3>{{ store.movie.title }}</h3>
@@ -13,10 +19,10 @@
             <div class="align-self-start">
                 <font-awesome-icon :icon="['fab', 'youtube']" style="color: red;" size="2xl" class="video-icon"/>
                 <span class="ms-2 text-secondary">예고편 보기</span>
+                <div class="badge text-warning ms-2">전문가 평점 : {{ store.movie.vote_average }}</div>
             </div>
             <div class="movie-infos">
                 <p>{{ shortOverview }}</p>
-            
                 <h6>감독 : {{ store.movie.director.name }}</h6>
                 <div class="d-flex flex-column">
                     <span class="mb-2 mt-2">출연진</span>
@@ -27,7 +33,7 @@
                 </div>
             </div>
             <div class="community-card">
-                <MovieReviewList />
+                <MovieReviewList class="mt-3"/>
             </div>
         </div>
         <DetailSimilarList />
@@ -40,7 +46,9 @@ import MovieReviewList from '@/components/Movies/MovieReviewList.vue'
 import Navbar from '@/components/Movies/Navbar.vue'
 import { onMounted, ref, watch, computed } from 'vue'
 import { useMovieStore } from '@/stores/movie'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const store = useMovieStore()
 const actorList = ref([])
 const genrList = ref([])
@@ -69,6 +77,9 @@ const shortOverview = computed(() => {
     : store.movie.overview
 })
 
+const goBack = function () {
+    router.push({ name: 'recommend' })
+}
 </script>
 
 <style scoped>
@@ -93,8 +104,9 @@ h3 {
     width: 800px;
 }
 
-.community-card {
-
+.back-icon {
+    align-self: flex-start;
+    margin: 10px 20px;
 }
 
 .드라마 {
