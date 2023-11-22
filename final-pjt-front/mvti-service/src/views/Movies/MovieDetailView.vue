@@ -1,11 +1,34 @@
 <template>
     <div class="d-flex p-4">
+        <Navbar />
         <img :src="`https://image.tmdb.org/t/p/w300/${store.movie.poster_path}`" alt="poster">
         <div class="d-flex flex-column ms-3">
-            <h3>{{ store.movie.title }}</h3>
-            <p>{{ store.movie.overview }}</p>
-            <h6>감독 : {{ store.movie.director }}</h6>
-            <h6>출연진 : {{ store.movie }}</h6>
+            <div class="title-box">
+                <h3>{{ store.movie.title }}</h3>
+                <div v-for="(genr, index) in genrList" :key="index"
+                :class="['badge', 'text-bg', genreClass(genr.name)]">
+                    {{ genr.name }}
+                </div>
+            </div>
+            <div class="align-self-start">
+                <font-awesome-icon :icon="['fab', 'youtube']" style="color: red;" size="2xl" class="video-icon"/>
+                <span class="ms-2 text-secondary">예고편 보기</span>
+            </div>
+            <div class="movie-infos">
+                <p>{{ shortOverview }}</p>
+            
+                <h6>감독 : {{ store.movie.director.name }}</h6>
+                <div class="d-flex flex-column">
+                    <span class="mb-2 mt-2">출연진</span>
+                    <h6 v-for="(actor, index) in limitActors" :key="index">
+                        {{ actor.name }}
+                    </h6>
+                    <span v-if="actorList.length > 3">...</span>
+                </div>
+            </div>
+            <div class="community-card">
+
+            </div>
         </div>
         <DetailSimilarList />
     </div>
@@ -13,13 +36,36 @@
 
 <script setup>
 import DetailSimilarList from '@/components/Movies/DetailSimilarList.vue'
-import { onMounted, ref } from 'vue'
+import Navbar from '@/components/Movies/Navbar.vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import { useMovieStore } from '@/stores/movie'
 
 const store = useMovieStore()
+const actorList = ref([])
+const genrList = ref([])
+const genreClass = (genreName) => genreName.toLowerCase().replace(/\s+/g, '-');
 
-onMounted(() => {
-    store.getMovieDetail()
+const fetchMovieDetail = async () => {
+    await store.getMovieDetail()
+    actorList.value = store.movie.actors
+    genrList.value = store.movie.genres
+}
+
+onMounted(fetchMovieDetail)
+
+watch(() => store.movie, (newMovie) => {
+    actorList.value = newMovie.actors
+    genrList.value = newMovie.genres
+}, { deep: true })
+
+const limitActors = computed(() => {
+    return actorList.value.slice(0, 3)
+})
+
+const shortOverview = computed(() => {
+    return store.movie.overview.length > 150
+    ? store.movie.overview.slice(0, 150) + '...중략'
+    : store.movie.overview
 })
 
 </script>
@@ -28,8 +74,78 @@ onMounted(() => {
 img {
     width: 300px;
     height: 500px;
+    margin-left: 20px;
 }
-h3, p, h6 {
+h3, p, h6, span {
     color: #f5f5f5;
+}
+
+h3 {
+    margin-right: 10px;
+}
+.title-box {
+    display: flex;
+    align-items: center;
+}
+
+.movie-infos {
+    width: 800px;
+}
+
+.community-card {
+
+}
+
+.드라마 {
+    background-color: #D3D3D3;
+}
+.가족 {
+    background-color: #F5F5DC;
+}
+.다큐멘터리 {
+    background-color: #C0C0C0;
+}
+
+.액션 {
+    background-color: #0000FF;
+}
+.스릴러 {
+    background-color: #FF0000;
+}
+.범죄 {
+    background-color: #808080;
+}
+.모험 {
+    background-color: #32CD32;
+}
+.애니메이션{
+    background-color: #FFD700;
+}
+.음악 {
+    background-color: #FFA500;
+}
+.로맨스 {
+    background-color: #FFB6C1;
+}
+.코미디 {
+    background-color: #4e8f4e;
+}
+.공포 {
+    background-color: #8B0000;
+}
+.미스터리 {
+    background-color: darkkhaki;
+}
+.전쟁 {
+    background-color: #EB0000;
+}
+.서부 {
+    background-color: #F4A460;
+}
+.판타지 {
+    background-color: #800080;
+}
+.SF {
+    background-color: #008B8B;
 }
 </style>
