@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="community-card">
-
+                <MovieReviewList />
             </div>
         </div>
         <DetailSimilarList />
@@ -36,6 +36,7 @@
 
 <script setup>
 import DetailSimilarList from '@/components/Movies/DetailSimilarList.vue'
+import MovieReviewList from '@/components/Movies/MovieReviewList.vue'
 import Navbar from '@/components/Movies/Navbar.vue'
 import { onMounted, ref, watch, computed } from 'vue'
 import { useMovieStore } from '@/stores/movie'
@@ -145,7 +146,7 @@ h3 {
 .판타지 {
     background-color: #800080;
 }
-.SF {
+.sf {
     background-color: #008B8B;
 }
 </style>
