@@ -67,6 +67,6 @@ export const useMovieStore = defineStore('movie', () => {
       console.log(err)
     })
   }
-  
+
   return { movies, token, API_URL, isLogin, getMovies, signUp, logIn }
 }, { persist: true })
