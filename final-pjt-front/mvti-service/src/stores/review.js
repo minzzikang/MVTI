@@ -27,11 +27,10 @@ export const useReviewStore = defineStore('review', () => {
 	}
 
     const content = ref('')
-    const rating = ref(0)
+    const rating = ref('')
     const movieId = ref(route.params.id)
 
     const createReview = function () {
-  
         axios({
             method: 'post',
             url: `${API_URL}/api/v1/movies/${movieId.value}/comment`,
