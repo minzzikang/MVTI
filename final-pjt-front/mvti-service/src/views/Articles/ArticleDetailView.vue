@@ -8,7 +8,7 @@
             <p>{{ store.article.username }}</p>
             <h5>{{ store.article.content }}</h5>
             <div class="d-flex justify-content-between align-items-center">
-                <font-awesome-icon :icon="[isLike ? 'fas' : 'far', 'heart']"
+                <font-awesome-icon :icon="[userStore.isLike ? 'fas' : 'far', 'heart']"
                      @click="addLike(store.article.id)"/>
                     {{ store.article.like_count }}
                 <div class="dates">
@@ -32,6 +32,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
 import { useMovieStore } from '@/stores/movie'
+import { useUserStore } from '@/stores/user'
 import axios from 'axios'
 import CommentList from '@/components/Articles/CommentList.vue'
 
@@ -39,30 +40,11 @@ const route = useRoute()
 const router = useRouter()
 const store = useArticleStore()
 const movieStore = useMovieStore()
+const userStore = useUserStore()
 
 onMounted(() => {
     store.getArticleDetail()
-})
-
-const user = ref([])
-let isLike = ref(false)
-onMounted(() => {
-    axios({
-        method: 'get',
-        url: `${movieStore.API_URL}/accounts/user`,
-        headers: {
-        Authorization: `Token ${movieStore.token}`
-        }
-    })
-    .then((res) => {
-        user.value = res.data
-        if (store.article.article_like_users.includes(user.value.pk)) {
-            isLike.value = true
-        } else {
-            isLike.value = false
-        }
-    })
-    .catch((err) => console.log(err))
+    userStore.getUser()
 })
 
 
@@ -77,7 +59,7 @@ const addLike = function (articleId) {
             .then((res) => {
                 store.getArticleDetail()
                 if(store.article.id === articleId) {
-                    isLike.value = !isLike.value
+                    userStore.isLike = !userStore.isLike
                 }
             })
             .catch((err) => {

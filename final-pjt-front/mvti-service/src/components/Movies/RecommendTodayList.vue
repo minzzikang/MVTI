@@ -3,7 +3,7 @@
         <h3 class="text-white mb-3 mt-3">오늘의 추천 영화</h3>
         <div class="d-flex">
             <RecommendTodayCard 
-                v-for="movie in store.movies"
+                v-for="movie in movieStore.movies"
                 :key="movie.id"
                 :movie="movie"
             />
@@ -15,7 +15,7 @@
 import RecommendTodayCard from '@/components/Movies/RecommendTodayCard.vue'
 import { useMovieStore } from '@/stores/movie'
 
-const store = useMovieStore()
+const movieStore = useMovieStore()
 
 </script>
 
