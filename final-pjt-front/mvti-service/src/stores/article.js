@@ -64,7 +64,6 @@ export const useArticleStore = defineStore('article', () => {
     const content = ref('')
 
     const createArticle = function () {
-
         axios({
             method: 'post',
             url: `${API_URL}/community/article/`,
