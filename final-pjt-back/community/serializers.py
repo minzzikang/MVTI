@@ -3,6 +3,9 @@ from .models import Article, Articlecomment
 
 class ArticleListSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
+    comment_count = serializers.IntegerField(source='articlecomment_set.count', read_only=True)
+    like_count = serializers.IntegerField(source='article_like_users.count', read_only=True)
+    
     class Meta:
         model = Article
         fields = '__all__'
@@ -12,11 +15,12 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('title', 'content',)
-        read_only_fields = ('user',)
+        read_only_fields = ('user', 'is_like',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
+    
     class Meta:
         model = Articlecomment
         fields = '__all__'
