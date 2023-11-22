@@ -48,6 +48,15 @@ class MovieDetailSerializer(serializers.ModelSerializer):
     moviecomment_set = CommentSerializer(many=True, read_only=True)
     comment_count = serializers.IntegerField(source='moviecomment_set.count', read_only=True)
     like_count = serializers.IntegerField(source='movie_like_users.count', read_only=True)
+    genres = GenreSerializer(many=True)
+    actors = ActorSerializer(many=True)
+    
+    class DirectorNameSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Director
+            fields = ('name',)
+
+    director = DirectorNameSerializer(read_only=True)
 
     class Meta:
         model = Movie
