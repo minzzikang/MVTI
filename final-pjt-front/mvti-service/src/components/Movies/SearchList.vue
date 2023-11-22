@@ -9,6 +9,8 @@
             v-for="movie in searchList"
             :key="movie.id"
             :movie="movie"/>
+        <!-- <SearchCard 
+            :searchList="searchList"/> -->
     </div>
 </template>
 
@@ -22,18 +24,36 @@ const store = useMovieStore()
 const inputText = ref('')
 const searchList = ref([])
 
-const searchMovie = function () {
-    store.getMovies()
-    // console.log(store.movies)
-    searchList.value = store.movies.filter(movie => {
-        // console.log(movie.title)
-        // movie.title.includes(inputText.value)
-        // console.log(inputText.value)
-        movie.title === inputText.value
-    })
-    console.log(searchList.value)
-}
+// const searchMovie = function () {
+//     store.getMovies()
+//     // console.log(store.movies)
+//     searchList.value = store.movies.filter(movie => {
+//         // movie.title.includes(inputText.value)
+//         movie.title === inputText.value
+//         console.log(movie.title)
+//         console.log(inputText.value)
+//     })
+//     console.log(searchList.value)
+// }
 
+const searchMovie = function () {
+    searchList.value.splice(0)
+    for (let i = 0; i < store.movies.length; i++) {
+        for (let j = 0; j < store.movies[i].actors.length; j++)
+            if (inputText.value === store.movies[i].actors[j].name) {
+                searchList.value.push(store.movies[i])
+            }
+        
+        if (inputText.value === store.movies[i].title) {
+            searchList.value.push(store.movies[i])
+        }
+
+        if (inputText.value === store.movies[i].director.name){
+            searchList.value.push(store.movies[i])
+        }
+
+    }
+}
 
 </script>
 
