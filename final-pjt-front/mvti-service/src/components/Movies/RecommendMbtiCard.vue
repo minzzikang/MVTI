@@ -1,16 +1,33 @@
 <template>
-    <div>
-        <h3 class="text-white mb-3 mt-3">{{ userStore.user.mbti }}가 선호한 영화!</h3>
+    <div class="d-flex flex-column ms-4" @click="goDetail(movie)">
+        <img :src="`https://image.tmdb.org/t/p/w300/${movie.poster_path}`" alt="poster">
+        <h5 class="fw-bold">{{ movie.title }}</h5>
     </div>
 </template>
 
 <script setup>
-import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 
-const userStore = useUserStore()
+const router = useRouter()
 
+const goDetail = function(movie) {
+    router.push({ name:'detail', params: { id: `${movie.id}` } })
+}
+
+defineProps({
+    movie: Object,
+})
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+img {
+    width: 200px;
+    height: 300px;
+}
 
+h5 {
+    color: white;
+    text-align: left;
+    margin-top: 10px;
+}
 </style>

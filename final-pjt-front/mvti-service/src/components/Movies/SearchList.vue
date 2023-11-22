@@ -32,6 +32,7 @@ const searchMovie = function () {
                     if (searchList.value.some(movie => movie.id === store.movies[i].id)) {                        
                     } else {
                         searchList.value.push(store.movies[i])
+                        console.log('배우')
                     }
                 }
             // 제목검색
@@ -39,6 +40,7 @@ const searchMovie = function () {
                 if (searchList.value.some(movie => movie.id === store.movies[i].id)) {                        
                     } else {
                         searchList.value.push(store.movies[i])
+                        console.log('제목')
                     }
             }
             // 감독 검색
@@ -46,6 +48,7 @@ const searchMovie = function () {
                 if (searchList.value.some(movie => movie.id === store.movies[i].id)) {                        
                     } else {
                         searchList.value.push(store.movies[i])
+                        console.log('감독')
                     }
             }
             // 내용 검색
@@ -53,6 +56,7 @@ const searchMovie = function () {
                 if (searchList.value.some(movie => movie.id === store.movies[i].id)) {                        
                     } else {
                         searchList.value.push(store.movies[i])
+                        console.log('내용')
                     }
             }
             // 장르 검색
@@ -61,6 +65,7 @@ const searchMovie = function () {
                     if (searchList.value.some(movie => movie.id === store.movies[i].id)) {                        
                     } else {
                         searchList.value.push(store.movies[i])
+                        console.log('장르')
                     }
                 }
             }

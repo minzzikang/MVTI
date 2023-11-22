@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex">
+    <div>
         <Navbar />
         <div class="wrap-today">
             <RecommendTodayList class="ms-3" />
