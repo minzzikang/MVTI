@@ -108,7 +108,12 @@ h3 {
     align-self: flex-start;
     margin: 10px 20px;
 }
-
+.역사 {
+    background-color: burlywood;
+}
+.tv영화 {
+    background-color: lightcyan;
+}
 .드라마 {
     background-color: #D3D3D3;
 }
@@ -118,7 +123,6 @@ h3 {
 .다큐멘터리 {
     background-color: #C0C0C0;
 }
-
 .액션 {
     background-color: #0000FF;
 }
