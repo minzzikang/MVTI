@@ -11,7 +11,7 @@
         <div class="d-flex flex-column ms-3">
             <div class="title-box">
                 <h3>{{ movieStore.movie.title }}</h3>
-                <div v-for="(genr, index) in genrList" :key="index"
+                <div v-for="(genr, index) in movieStore.movie.genres" :key="index"
                 :class="['badge', 'text-bg', genreClass(genr.name)]">
                     {{ genr.name }}
                 </div>
@@ -29,8 +29,13 @@
                     <h6 v-for="(actor, index) in limitActors" :key="index">
                         {{ actor.name }}
                     </h6>
-                    <span v-if="actorList.length > 3">...</span>
+                    <span v-if="movieStore.movie.actors.length > 3">...</span>
                 </div>
+            </div>
+            <div style="background-color: white;">
+                <font-awesome-icon :icon="[userStore.isMovieLike ? 'fas' : 'far', 'heart']"
+                        @click="addLike(movieStore.movie.id)"/>
+                {{ movieStore.movie.like_count }}
             </div>
             <div class="community-card">
             <MovieReviewList :movie="movieStore.movie" @new-comment="handleNewComment" @delete-comment="handleDeleteComment"
@@ -43,26 +48,25 @@
 <script setup>
 import MovieReviewList from '@/components/Movies/MovieReviewList.vue'
 import Navbar from '@/components/Movies/Navbar.vue'
-import { onMounted, ref, watch, computed } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useMovieStore } from '@/stores/movie'
-import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { useRouter, useRoute } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
+const route = useRoute()
 const movieStore = useMovieStore()
-const actorList = ref([])
-const genrList = ref([])
+const userStore = useUserStore()
 const genreClass = (genreName) => genreName.toLowerCase().replace(/\s+/g, '-');
 
-const fetchMovieDetail = async () => {
-    await movieStore.getMovieDetail()
-    actorList.value = movieStore.movie.actors
-    genrList.value = movieStore.movie.genres
-}
-
-onMounted(fetchMovieDetail)
+onMounted(() => {
+    movieStore.getMovieDetail()
+    userStore.getUser()
+})
 
 const limitActors = computed(() => {
-    return actorList.value.slice(0, 3)
+    return movieStore.movie.actors.slice(0, 3)
 })
 
 const shortOverview = computed(() => {
@@ -70,6 +74,38 @@ const shortOverview = computed(() => {
     ? movieStore.movie.overview.slice(0, 150) + '...중략'
     : movieStore.movie.overview
 })
+
+const addLike = function (movieId) {
+    axios({
+            method: 'post',
+            url: `${movieStore.API_URL}/api/v1/movies/${route.params.id}/likes`,
+            headers: {
+                Authorization: `Token ${movieStore.token}`
+            }
+        })
+            .then((res) => {
+                axios({
+                    method: 'get',
+                    url: `${movieStore.API_URL}/api/v1/movies/${route.params.id}`,
+                    headers: {
+                    Authorization: `Token ${movieStore.token}`
+                }
+                })
+                    .then((res) => {
+                        movieStore.movie = res.data
+                        if(movieStore.movie.id === movieId) {
+                        userStore.isMovieLike = !userStore.isMovieLike
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+
+                    })
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+}
 
 const handleNewComment = (newComment) => {
     movieStore.movie.moviecomment_set.push(newComment)
