@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex">
-        <Navbar class="nav-bar"/>
+        <Navbar />
         <div>
             <div v-if="userStore.user.mbti" class="d-flex flex-column">
                 <RecommendMbtiList class="ms-3" />
