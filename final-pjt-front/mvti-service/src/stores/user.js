@@ -8,7 +8,6 @@ import { useArticleStore } from '@/stores/article'
 export const useUserStore = defineStore('user', () => {
 	const API_URL = 'http://127.0.0.1:8000'
     const movieStore = useMovieStore()
-    const ArticleStore = useArticleStore()
     const user = ref([])
     let isLike = ref(false)
     let isMovieLike = ref(false)
@@ -22,6 +21,7 @@ export const useUserStore = defineStore('user', () => {
             }
         })
         .then((res) => {
+            user.value = res.data
         })
         .catch((err) => console.log(err))
     }
