@@ -31,6 +31,7 @@ export const useArticleStore = defineStore('article', () => {
     }
 
     const getArticleDetail = function () {
+        console.log(route.params.id)
         axios({
             method: 'get',
             url: `${API_URL}/community/article/${route.params.id}`,
@@ -75,7 +76,7 @@ export const useArticleStore = defineStore('article', () => {
                 Authorization: `Token ${movieStore.token}`
             }
         }).then(res => {
-            console.log(res)
+            // console.log(res)
             router.push({ name: 'article' })
         }).catch(err => {
             console.log(err)
