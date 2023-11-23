@@ -58,11 +58,11 @@ const signout = function () {
     headers: {
       Authorization: `Token ${store.token}`
     }
-  })
-    .then(res => {
+    })
+    .then((res) => {
         alert('다음에 또 방문해주세용 ㅠㅠ')
-        authStore.token = null
-        authStore.user = null
+        store.token = null
+        store.user = null
         router.replace({ name: 'home' })
     })
     .catch(err => console.log(err))
