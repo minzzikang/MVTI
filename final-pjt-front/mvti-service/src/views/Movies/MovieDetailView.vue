@@ -19,7 +19,6 @@
             </div>
             <div class="align-self-start">
                 <YoutubeTrailerModal :movie="movieStore.movie" />
-                <!-- {{ movieStore.movie }} -->
             </div>
             <div class="movie-infos">
                 <p>{{ shortOverview }}</p>

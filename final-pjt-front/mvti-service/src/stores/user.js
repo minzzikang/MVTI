@@ -22,12 +22,6 @@ export const useUserStore = defineStore('user', () => {
             }
         })
         .then((res) => {
-            user.value = res.data
-            if (ArticleStore.article.article_like_users.includes(user.value.pk)) {
-                isLike.value = true
-            } else {
-                isLike.value = false
-            }
         })
         .catch((err) => console.log(err))
     }

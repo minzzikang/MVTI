@@ -31,7 +31,6 @@ export const useArticleStore = defineStore('article', () => {
     }
 
     const getArticleDetail = function () {
-        console.log(route.params.id)
         axios({
             method: 'get',
             url: `${API_URL}/community/article/${route.params.id}`,
