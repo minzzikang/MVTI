@@ -10,6 +10,7 @@ import ArticleDetailView from '@/views/Articles/ArticleDetailView.vue'
 import ArticleEditView from '@/views/Articles/ArticleEditView.vue'
 import UserView from '@/views/Users/UserView.vue'
 import UserUpdateView from '@/views/Users/UserUpdateView.vue'
+import UserInfoUpdateView from '@/views/Users/UserInfoUpdateView.vue'
 import { useMovieStore } from '@/stores/movie'
 
 const router = createRouter({
@@ -69,6 +70,11 @@ const router = createRouter({
       path: '/user/update',
       name: 'userUpdate',
       component: UserUpdateView
+    },
+    {
+      path: '/user/infoupdate',
+      name: 'userInfoUpdate',
+      component: UserInfoUpdateView
     },
   ]
 })
