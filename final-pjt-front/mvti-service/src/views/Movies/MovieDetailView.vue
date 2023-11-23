@@ -33,9 +33,9 @@
                 </div>
             </div>
             <div style="background-color: white;">
-                <font-awesome-icon :icon="[userStore.isMovieLike ? 'fas' : 'far', 'heart']"
-                        @click="addLike(movieStore.movie.id)"/>
-                {{ movieStore.movie.like_count }}
+                <font-awesome-icon :icon="[checkLike ? 'fas' : 'far', 'heart']"
+                    @click="addLike(movieStore.movie.id)"/>
+                    {{ movieStore.movie.like_count }}
             </div>
             <div class="community-card">
             <MovieReviewList :movie="movieStore.movie" @new-comment="handleNewComment" @delete-comment="handleDeleteComment"
@@ -85,28 +85,20 @@ const addLike = function (movieId) {
             }
         })
             .then((res) => {
-                axios({
-                    method: 'get',
-                    url: `${movieStore.API_URL}/api/v1/movies/${route.params.id}`,
-                    headers: {
-                    Authorization: `Token ${movieStore.token}`
-                }
-                })
-                    .then((res) => {
-                        movieStore.movie = res.data
-                        if(movieStore.movie.id === movieId) {
-                        userStore.isMovieLike = !userStore.isMovieLike
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(err)
-
-                    })
+                movieStore.getMovieDetail()
             })
             .catch((err) => {
                 console.error(err)
             })
 }
+
+const checkLike = computed(() => {
+    if (movieStore.movie.movie_like_users.includes(userStore.user.pk)) {
+        return true
+    } else {
+        return false
+    }
+})
 
 const handleNewComment = (newComment) => {
     movieStore.movie.moviecomment_set.push(newComment)
@@ -125,10 +117,6 @@ const handleUpdateComment = (updatedComment) => {
 
 const goBack = function () {
     router.push({ name: 'recommend' })
-}
-
-const goModal = function () {
-    
 }
 </script>
 

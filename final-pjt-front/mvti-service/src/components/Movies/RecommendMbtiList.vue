@@ -12,13 +12,14 @@
 
 <script setup>
 import RecommendMbtiCard from '@/components/Movies/RecommendMbtiCard.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useMovieStore } from '@/stores/movie'
 
 const movieStore = useMovieStore()
 const userStore = useUserStore()
 const movieList = ref([])
+
 
 for (let i = 0; i < movieStore.movies.length; i++) {
     if (userStore.user.mbti === 'ESFJ'){
@@ -288,7 +289,6 @@ for (let i = 0; i < movieStore.movies.length; i++) {
         }
     }
 }
-
 
 </script>
 

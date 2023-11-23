@@ -9,7 +9,7 @@
             <h5>{{ store.article.content }}</h5>
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <font-awesome-icon :icon="[userStore.isLike ? 'fas' : 'far', 'heart']"
+                    <font-awesome-icon :icon="[checkLike ? 'fas' : 'far', 'heart']"
                         @click="addLike(store.article.id)"/>
                         {{ store.article.like_count }}
                 </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
 import { useMovieStore } from '@/stores/movie'
@@ -60,14 +60,19 @@ const addLike = function (articleId) {
         })
             .then((res) => {
                 store.getArticleDetail()
-                if(store.article.id === articleId) {
-                    userStore.isLike = !userStore.isLike
-                }
             })
             .catch((err) => {
                 console.error(err)
             })
 }
+
+const checkLike = computed(() => {
+    if (store.article.article_like_users.includes(userStore.user.pk)) {
+        return true
+    } else {
+        return false
+    }
+})
 
 const handleNewComment = (newComment) => {
     store.article.articlecomment_set.push(newComment)
