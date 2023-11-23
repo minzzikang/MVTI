@@ -1,11 +1,13 @@
 <template>
-    <div>
+    <divz>
         <p>댓글 쓴 영화</p>
-        <UserCommentMovieCard 
-        v-for="movie in userCommentMovie"
-        :key="movie.id"
-        :movie="movie"/>
-    </div>
+        <div class="d-flex">
+            <UserCommentMovieCard 
+            v-for="movie in userCommentMovie"
+            :key="movie.id"
+            :movie="movie"/>
+        </div>
+    </divz>
 </template>
 
 <script setup>
