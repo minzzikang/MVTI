@@ -2,7 +2,7 @@
     <div class="d-flex p-4">
         <Navbar />
         <div class="d-flex flex-column">
-            <img :src="`https://image.tmdb.org/t/p/w300/${movieStore.movie.poster_path}`" alt="poster">
+            <img :src="`https://image.tmdb.org/t/p/w300${movieStore.movie.poster_path}`" alt="poster">
             <font-awesome-icon :icon="['fas', 'circle-chevron-left']"
                 style="color: #f5f5f5;" size="2xl" class="back-icon"
                 @click="goBack"/>
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="align-self-start">
-                <font-awesome-icon :icon="['fab', 'youtube']" style="color: red;" size="2xl" class="video-icon"/>
+                <font-awesome-icon :icon="['fab', 'youtube']" style="color: red;" size="2xl" class="video-icon" @click="goModal"/>
                 <span class="ms-2 text-secondary">예고편 보기</span>
                 <div class="badge text-warning ms-2">전문가 평점 : {{ movieStore.movie.vote_average }}</div>
             </div>
@@ -124,6 +124,10 @@ const handleUpdateComment = (updatedComment) => {
 
 const goBack = function () {
     router.push({ name: 'recommend' })
+}
+
+const goModal = function () {
+    
 }
 </script>
 

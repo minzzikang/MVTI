@@ -17,7 +17,7 @@ export const useMovieStore = defineStore('movie', () => {
 			return true
 		}
 	})
-
+	
 	const getMovies = function () {
 		axios({
 			method: 'get',
@@ -33,7 +33,7 @@ export const useMovieStore = defineStore('movie', () => {
 	}
 
 	const route = useRoute()
-	const movie = ref('')
+	const movie = ref(null)
 	const getMovieDetail = function () {
 	  axios({
 		method: 'get',

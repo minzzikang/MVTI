@@ -43,7 +43,4 @@ onMounted(() => {
     position: sticky;
     top: 0;
 }
-.wrap-today {
-
-}
 </style>
