@@ -94,7 +94,12 @@ export const useMovieStore = defineStore('movie', () => {
 			alert('회원이 되신 걸 환영합니다!')
 			logIn({ username, password })
 		}).catch((err) => {
-			console.log(err)
+			for (let i = 0; i < Object.values(err.response.data).length; i++) {
+				for (let j = 0; j < Object.values(err.response.data)[i].length; j++) {
+					alert(Object.values(err.response.data)[i][j])
+				}
+			}
+			
 		})
 	}
 
