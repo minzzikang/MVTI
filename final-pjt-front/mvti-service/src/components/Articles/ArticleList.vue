@@ -14,11 +14,14 @@ import ArticleCard from '@/components/Articles/ArticleCard.vue'
 import axios from 'axios'
 import { onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
+import { useUserStore } from '@/stores/user'
 
 const store = useArticleStore()
+const userStore = useUserStore()
 
 onMounted(() => {
     store.getArticles()
+    userStore.getUser()
 })
 
 </script>
