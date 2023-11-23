@@ -11,6 +11,7 @@ export const useUserStore = defineStore('user', () => {
     const ArticleStore = useArticleStore()
     const user = ref([])
     let isLike = ref(false)
+    let isMovieLike = ref(false)
 
     const getUser = function () {
         axios({
@@ -27,9 +28,15 @@ export const useUserStore = defineStore('user', () => {
             } else {
                 isLike.value = false
             }
+            if (movieStore.movie.movie_like_users.includes(user.value.pk)) {
+                isMovieLike.value = true
+            } else {
+                isMovieLike.value = false
+            }
+            console.log(movieStore.movie.movie_like_users)
         })
         .catch((err) => console.log(err))
     }
 
-	return { user, isLike, getUser }
+	return { user, isLike, isMovieLike, getUser }
 }, { persist: true })
