@@ -16,14 +16,15 @@ import { computed } from 'vue'
 
 const movieStore = useMovieStore()
 const userStore = useUserStore()
+console.log(movieStore.movies)
+console.log(userStore.user.username)
 
 const userCommentMovie = computed(() => {
     return movieStore.movies.filter(movie => {
-        return movie.moviecomment_set.some(comment => comment.id === userStore.user.pk);
+        return movie.moviecomment_set.some(comment => comment.username === userStore.user.username);
     })
 })
-
-
+// console.log(userCommentMovie)
 </script>
 
 <style scoped>
