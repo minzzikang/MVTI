@@ -10,12 +10,55 @@
 
 ### :pushpin: 목표
 - TMDB API와 Youtube API를 활용한 영화 추천 서비스 구성
-- 사용자의 MBTI, 나이 등 사용자 입력 데이터 기반으로 추천 알고리즘 설계
+- 사용자의 MBTI, 나이 등 사용자 입력 데이터 기반 및 현재 날짜 기준 추천 알고리즘 설계
+
+### :love_letter: 설치 안내
+서비스 사용을 위해 아래의 방법으로 실행합니다.
+레퍼지토리를 clone 받습니다.
+#### [BACK-END]
+1. final-pjt-back 폴더에 필요한 프로그램을 설치합니다.
+```
+pip install -r requirements.txt
+```
+2. 서버 실행 전 필요한 데이터를 받습니다.
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py loaddata datas.json
+```
+3. 설치 완료 후, 백엔드 서버를 실행합니다.
+```
+python manage.py runserver
+```
+#### [FRONT-END]
+1. final-pjt-front/mvti-service 폴더에서 package.json에 정의된 패키지 및 모듈을 설치합니다.
+```
+npm install
+```
+2. 설치 완료 후, 프론트엔드 서버를 실행합니다.
+```
+npm run dev
+```
 
 ### :hammer: 기술 스택
+#### FRONT-END
+    - Vue 3
+    - JavaScript
+    - HTML, CSS
+    - BootStrap
+
+#### BACK-END
+    - Python
+    - Django
+    - TMDB API
+    - YOUTUBE API
+
+### :thumbsup: 기능 소개
+
 
 
 ### :closed_book: 데이터베이스 모델링 (ERD)
+
 
 ### :green_book: 컴포넌트 구조
 
