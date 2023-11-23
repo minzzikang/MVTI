@@ -9,11 +9,20 @@
                 <font-awesome-icon :icon="['fas', 'key']" size="xl" style="color: #f5f5f5;"
                     class="icon ms-3 mt-2" @click="goUserUpdate"/>
             </div>
-                
+            
             <div class="d-flex flex-column">
                 <UserLikeList />
+                <hr>
+            </div>
+            <div class="d-flex flex-column">           
                 <UserCommentMovieList />
+                <hr>
+            </div>
+            <div class="d-flex flex-column"> 
                 <UserArticleList />
+                <hr>
+            </div>
+            <div class="d-flex flex-column"> 
                 <UserCommentArticleList />
             </div>
         </div>
@@ -52,13 +61,13 @@ onMounted(() => {
 })
 
 const signout = function () {
-  axios({
+    axios({
     method: 'delete',
     url: `${store.API_URL}/accounts/signout/`,
     headers: {
-      Authorization: `Token ${store.token}`
+        Authorization: `Token ${store.token}`
     }
-  })
+    })
     .then(res => {
         alert('다음에 또 방문해주세용 ㅠㅠ')
         authStore.token = null

@@ -1,10 +1,12 @@
 <template>
-    <div>
+    <div class="d-flex flex-column">
         <p class="mt-3">댓글 쓴 게시글</p>
-        <UserCommentArticleCard 
-            v-for="article in userCommentArticle"
-            :key="article.id"
-            :article="article"/>
+        <div class="d-flex article-card">
+            <UserCommentArticleCard 
+                v-for="article in userCommentArticle"
+                :key="article.id"
+                :article="article"/>
+        </div>
     </div>
 </template>
 
@@ -26,5 +28,7 @@ const userCommentArticle = computed(() => {
 </script>
 
 <style scoped>
-
+.article-card {
+    margin: 0px;
+}
 </style>
