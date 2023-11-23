@@ -15,11 +15,11 @@
                 :class="['badge', 'text-bg', genreClass(genr.name)]">
                     {{ genr.name }}
                 </div>
+                <div class="badge text-warning ms-2">전문가 평점 : {{ movieStore.movie.vote_average }}</div>
             </div>
             <div class="align-self-start">
-                <font-awesome-icon :icon="['fab', 'youtube']" style="color: red;" size="2xl" class="video-icon" @click="goModal"/>
-                <span class="ms-2 text-secondary">예고편 보기</span>
-                <div class="badge text-warning ms-2">전문가 평점 : {{ movieStore.movie.vote_average }}</div>
+                <YoutubeTrailerModal :movie="movieStore.movie" />
+                <!-- {{ movieStore.movie }} -->
             </div>
             <div class="movie-infos">
                 <p>{{ shortOverview }}</p>
@@ -46,6 +46,7 @@
 </template>
 
 <script setup>
+import YoutubeTrailerModal from '@/components/Movies/YoutubeTrailerModal.vue'
 import MovieReviewList from '@/components/Movies/MovieReviewList.vue'
 import Navbar from '@/components/Movies/Navbar.vue'
 import { onMounted, ref, computed } from 'vue'
