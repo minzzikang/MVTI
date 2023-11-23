@@ -1,10 +1,10 @@
 <template>
     <div>
-        <p>댓글 쓴 게시글</p>
+        <p class="mt-3">댓글 쓴 게시글</p>
         <UserCommentArticleCard 
-        v-for="article in userCommentArticle"
-        :key="article.id"
-        :article="article"/>
+            v-for="article in userCommentArticle"
+            :key="article.id"
+            :article="article"/>
     </div>
 </template>
 

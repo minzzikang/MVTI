@@ -9,14 +9,19 @@
                 @click="goHome" />
             <font-awesome-icon :icon="['fas', 'user-gear']" style="color: #f5f5f5;" size="2xl"
                 @click="goUser" />
+            <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" 
+                size="2xl" style="color: #f5f5f5;"
+                @click="store.logOut"/>
         </div>
     </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useMovieStore } from '@/stores/movie'
 
 const router = useRouter()
+const store = useMovieStore()
 
 const goSearch = function () {
     router.push({ name: 'search' })
