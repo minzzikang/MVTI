@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex flex-column ms-4" @click="goDetail(movie)">
         <img :src="`https://image.tmdb.org/t/p/w300/${movie.poster_path}`" alt="poster">
-        <h5 class="fw-bold">{{ movie.title }}</h5>
+        <h6 class="fw-bold">{{ movie.title }}</h6>
     </div>
 </template>
 
@@ -25,7 +25,7 @@ img {
     height: 300px;
 }
 
-h5 {
+h6 {
     color: white;
     text-align: left;
     margin-top: 10px;
