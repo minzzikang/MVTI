@@ -1,6 +1,7 @@
 <template>
-    <div class="card" @click="goDetail(movie)">
-        {{ movie.title }}
+    <div @click="goDetail(movie)">
+        <img :src="`https://image.tmdb.org/t/p/w300${movie.poster_path}`" alt="poster">
+        <p class="fw-bold text-white text-center">{{ movie.title }}</p>
     </div>
 </template>
 
@@ -21,4 +22,9 @@ defineProps({
 
 <style scoped>
 
+img {
+    max-width: 200px;
+    height: 300px;
+    margin: 10px;
+}
 </style>
