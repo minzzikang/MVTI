@@ -65,14 +65,10 @@ const genreClass = (genreName) => genreName.toLowerCase().replace(/\s+/g, '-');
 onMounted(() => {
     movieStore.getMovieDetail()
     userStore.getUser()
-    console.log(movieStore.movie.moviecomment_set)
     const total = ref(0)
-    if (movieStore.movie.moviecomment_set) {
-        const ratings = movieStore.movie.moviecomment_set.forEach(item => {
-            total.value += item.rating
-        })
-    }
-    console.log(total.value)
+    // const ratings = movieStore.movie.moviecomment_set.forEach(item => {
+    //     total.value += item.rating
+    // })
 })
 
 const limitActors = computed(() => {

@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+
 import requests, json
 from django.conf import settings
 from .models import Movie, Moviecomment
@@ -138,6 +140,7 @@ def getdatas(request):
 
 # 전체 movie 정보 받아오기
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def movie_list(request):
     movies = Movie.objects.all()
     serializer = MovieSerializer(movies, many=True)
@@ -146,6 +149,7 @@ def movie_list(request):
 
 # 영화 상세정보 받아오기
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     serializer = MovieDetailSerializer(movie)
@@ -154,6 +158,7 @@ def movie_detail(request, movie_pk):
 
 # 영화 전체 댓글 조회
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def comment_list(request):
     comments = Moviecomment.objects.all()
     serializer = CommentSerializer(comments, many=True)
@@ -162,6 +167,7 @@ def comment_list(request):
 
 # 영화 댓글 생성
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def comment_create(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     serializer = CommentSerializer(data=request.data)
@@ -172,6 +178,7 @@ def comment_create(request, movie_pk):
 
 # 영화 상세정보에서 댓글 조회, 삭제, 수정
 @api_view(['GET', 'DELETE', 'PUT'])
+@permission_classes([IsAuthenticated])
 def comment_detail(request, comment_pk):
     comment = get_object_or_404(Moviecomment, pk=comment_pk)
     
@@ -192,6 +199,7 @@ def comment_detail(request, comment_pk):
 
 # 영화 좋아요(찜목록)
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def likes(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if movie.movie_like_users.filter(pk=request.user.pk).exists():

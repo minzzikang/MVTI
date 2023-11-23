@@ -7,7 +7,7 @@
                     <label for="nickname" class="form-label">닉네임:</label>
                     <input type="text" class="form-control mb-3" id="nickname" name="nickname" v-model.trim="nickname">
 
-                    <label for="mbti" class="form-label">MBTI:</label>
+                    <label for="mbti" class="form-label">MBTI(대문자로 입력해 주세요!):</label>
                     <input type="text" class="form-control mb-3" id="mbti" name="mbti" v-model.trim="mbti">
 
                     <label for="age" class="form-label">나이:</label>
@@ -26,9 +26,11 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useMovieStore } from '@/stores/movie'
+import { useUserStore } from '@/stores/user'
 import { useRoute, useRouter } from 'vue-router'
 
 const movieStore = useMovieStore()
+const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
@@ -54,8 +56,8 @@ onMounted(() => {
 
 const updateUser = function () {
     axios({
-        method: 'post',
-        url: `${movieStore.API_URL}/accounts/userupdate/`,
+        method: 'put',
+        url: `${movieStore.API_URL}/accounts/userupdate/${userStore.user.pk}`,
         data: {
             nickname: nickname.value,
             mbti: mbti.value,

@@ -64,7 +64,11 @@ export const useMovieStore = defineStore('movie', () => {
 			token.value = res.data.key
 			router.push({ name: 'recommend' })
 		}).catch((err) => {
-			console.log(err)
+			for (let i = 0; i < Object.values(err.response.data).length; i++) {
+				for (let j = 0; j < Object.values(err.response.data)[i].length; j++) {
+					alert(Object.values(err.response.data)[i][j])
+				}
+			}
 		})
 	}
 
@@ -91,12 +95,31 @@ export const useMovieStore = defineStore('movie', () => {
 			}
 		}).then((res) => {
 			const password = password1
-			alert('회원이 되신 걸 환영합니다!')
+			if (mbti.includes('T')) {
+				alert('죄송함당 ㅎㅎ 회원이 되신 걸 환영합니다!')
+			} else {
+				alert('회원이 되신 걸 환영합니다!')
+			}
+			if (age <= 10 || age >= 100) {
+				alert(`${payload.age}살 맞죵? ㅎㅎ; 거짓말이라면 회원정보에서 수정 부탁드립니다 ㅎㅎ`)
+			}
 			logIn({ username, password })
 		}).catch((err) => {
 			for (let i = 0; i < Object.values(err.response.data).length; i++) {
 				for (let j = 0; j < Object.values(err.response.data)[i].length; j++) {
-					alert(Object.values(err.response.data)[i][j])
+					if (Object.values(err.response.data)[i][j] === '유효한 정수(integer)를 넣어주세요.') {
+						alert('나이는 웬만하면 입력해 주시죵 ^^7~')
+					} else if (Object.values(err.response.data)[i][j] === 'User의 username은/는 이미 존재합니다.') {
+						alert('하핫 이미 있는 아이디네용;')
+					} else if (Object.values(err.response.data)[i][j] === '비밀번호가 너무 짧습니다. 최소 8 문자를 포함해야 합니다.') {
+						alert('비밀번호 8자 이상 하라니까용;')
+					} else if (Object.values(err.response.data)[i][j] === '비밀번호가 너무 일상적인 단어입니다.') {
+						alert('비밀번호 이렇게 쉬우면 금방 뚫려용;')
+					} else if (Object.values(err.response.data)[i][j] === '두 개의 패스워드 필드가 서로 맞지 않습니다.') {
+						alert('비밀번호가 틀리다네용;')
+					} else {
+						alert(Object.values(err.response.data)[i][j])
+					}
 				}
 			}
 			

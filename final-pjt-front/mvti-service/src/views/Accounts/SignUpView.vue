@@ -11,10 +11,6 @@
                         placeholder="영문, 숫자, 특문 중 2개 조합 8자 이상" v-model.trim="password1">
                     <label for="pwCheck">비밀번호 확인</label>
                     <input type="password" name="pwCheck" id="pwCheck" class="form-control mb-3" v-model.trim="password2">
-                    
-                    <p v-if="!passwordMatch" class="text-danger">
-                        비밀번호가 일치하지 않습니다.
-                    </p>
 
                     <label for="nickname">닉네임</label>
                     <input type="text" name="nickname" id="nickname" class="form-control mb-3"
@@ -22,12 +18,8 @@
                     
                     <label for="age">나이</label>
                     <input type="number" name="age" id="age" class="form-control mb-3" v-model.trim="age">
-                    
-                    <div v-if="!allFilled" class="alert alert-danger">
-                        필수 사항 정보를 채워주세요.
-                    </div>
 
-                    <label for="mbti">본인의 MBTI는? (선택사항)</label>
+                    <label for="mbti">본인의 MBTI를 대문자로 입력해주세요! (선택사항)</label>
                     <input type="text" name="mbti" id="mbti" class="form-control mb-3" v-model.trim="mbti">
                     <input type="submit" class="btn btn-primary mt-3" value="가입하기">
                 </div>
@@ -37,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useMovieStore } from '@/stores/movie'
 
 const store = useMovieStore()
@@ -49,21 +41,7 @@ const nickname = ref('')
 const age = ref('')
 const mbti = ref('')
 
-const passwordMatch = ref(true)
-const allFilled = ref(true)
-
 const signUp = function () {
-    // allFilled.value = username.value && password.value && passwordCheck.value && nickname.value && age.value
-
-    // if (!allFilled.value) {
-    //     return
-    // }
-
-    // if (password.value !== passwordCheck.value) {
-    //     passwordMatch.value = false
-    //     return
-    // }
-
     const payload = {
         username: username.value,
         password1: password1.value,
@@ -72,13 +50,32 @@ const signUp = function () {
         mbti: mbti.value,
         age: age.value,
     }
-    store.signUp(payload)
+    if (payload.mbti === 'ISTJ'
+        || payload.mbti === 'ISFJ'
+        || payload.mbti === 'INFJ'
+        || payload.mbti === 'INTJ'
+        || payload.mbti === 'ISTP'
+        || payload.mbti === 'ISFP'
+        || payload.mbti === 'INFP'
+        || payload.mbti === 'INTP'
+        || payload.mbti === 'ESTP'
+        || payload.mbti === 'ESFP'
+        || payload.mbti === 'ENFP'
+        || payload.mbti === 'ENTP'
+        || payload.mbti === 'ESTJ'
+        || payload.mbti === 'ESFJ'
+        || payload.mbti === 'ENFJ'
+        || payload.mbti === 'ENTJ'
+        || payload.mbti === ''
+    ) {
+        if (payload.mbti.includes('T')){
+            alert('너 T야? ㅋㅋ')
+        }
+        store.signUp(payload)
+    } else {
+        alert('차라리 빈칸을 입력하세요...')
+    }
 }
-
-// watch([password, passwordCheck], () => {
-//     passwordMatch.value = password.value === passwordCheck.value
-// })
-
 </script>
 
 <style scoped>

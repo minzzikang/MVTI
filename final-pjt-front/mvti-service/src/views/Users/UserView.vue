@@ -4,7 +4,8 @@
         <div class="ms-4 mt-3 d-flex flex-column" style="color: #f5f5f5;">
             <div class="d-flex align-items-center mb-3">
                 <h3 class="me-3">{{ user.username }} 님의 프로필</h3>
-                <button class="btn btn-danger btn-sm" @click="UserInfoUpdate">정보수정</button>
+                <button class="btn btn-secondary btn-sm" @click="UserInfoUpdate">정보수정</button>
+                <button class="btn btn-danger btn-sm" @click="signout">회원탈퇴</button>
                 <font-awesome-icon :icon="['fas', 'key']" size="xl" style="color: #f5f5f5;"
                     class="icon ms-3 mt-2" @click="goUserUpdate"/>
             </div>
@@ -49,6 +50,23 @@ onMounted(() => {
     })
     .catch((err) => console.log(err))
 })
+
+const signout = function () {
+  axios({
+    method: 'delete',
+    url: `${store.API_URL}/accounts/signout/`,
+    headers: {
+      Authorization: `Token ${store.token}`
+    }
+  })
+    .then(res => {
+        alert('다음에 또 방문해주세용 ㅠㅠ')
+        authStore.token = null
+        authStore.user = null
+        router.replace({ name: 'home' })
+    })
+    .catch(err => console.log(err))
+}
 
 const goUserUpdate = function () {
     router.push({ name: 'userUpdate' })

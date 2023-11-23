@@ -19,7 +19,7 @@ const userStore = useUserStore()
 
 const userCommentArticle = computed(() => {
     return articleStore.articles.filter(article => {
-        return article.articlecomment_set.some(comment => comment.id === userStore.user.pk)
+        return article.articlecomment_set.some(comment => comment.username === userStore.user.username)
     })
 })
 // console.log(articleStore.articles)
