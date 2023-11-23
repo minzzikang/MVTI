@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-flex">
         <p>찜한 영화</p>
         <UserLikeCard
         v-for="movie in userLikeMovie"

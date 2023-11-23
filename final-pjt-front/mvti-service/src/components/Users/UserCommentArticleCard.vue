@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card">
         <p style="color: white;">{{ article.title }}</p>
     </div>
 </template>
