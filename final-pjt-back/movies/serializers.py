@@ -19,10 +19,18 @@ class DirectorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+    class Meta:
+        model = Moviecomment
+        fields = '__all__'
+        read_only_fields = ('user', 'movie',)
+
 class MovieSerializer(serializers.ModelSerializer):
     genres = GenreSerializer(many=True)
     actors = ActorSerializer(many=True)
-    
+    moviecomment_set = CommentSerializer(many=True, read_only=True)
+
     class DirectorNameSerializer(serializers.ModelSerializer):
         class Meta:
             model = Director
@@ -34,13 +42,6 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields='__all__'
 
-
-class CommentSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username', read_only=True)
-    class Meta:
-        model = Moviecomment
-        fields = '__all__'
-        read_only_fields = ('user', 'movie',)
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
