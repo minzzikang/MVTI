@@ -31,10 +31,10 @@
                     <span v-if="movieStore.movie.actors.length > 3">...</span>
                 </div>
             </div>
-            <div style="background-color: white;">
+            <div class="mb-2">
                 <font-awesome-icon :icon="[checkLike ? 'fas' : 'far', 'heart']"
-                    @click="addLike(movieStore.movie.id)"/>
-                    {{ movieStore.movie.like_count }}
+                    @click="addLike(movieStore.movie.id)" class="heart-icon"/>
+                <span class="text-white ms-2">{{ movieStore.movie.like_count }}</span>
             </div>
             <div class="community-card">
             <MovieReviewList :movie="movieStore.movie" @new-comment="handleNewComment" @delete-comment="handleDeleteComment"
@@ -120,6 +120,9 @@ const goBack = function () {
 </script>
 
 <style scoped>
+.heart-icon {
+    color: red;
+}
 img {
     width: 300px;
     height: 500px;

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="store.article">
         <div class="d-flex flex-cloumn card">
             <div class="title-top">
                 <h2>{{ store.article.title }}</h2>
@@ -11,11 +11,13 @@
                 <div>
                     <font-awesome-icon :icon="[checkLike ? 'fas' : 'far', 'heart']"
                         @click="addLike(store.article.id)"/>
-                        {{ store.article.like_count }}
+                        <span class="ms-2">{{ store.article.like_count }}</span>
+                    <font-awesome-icon :icon="['fas', 'comment']" class="ms-3"/>
+                    <span class="ms-2">{{ store.article.comment_count }}</span>
                 </div>
                 <div class="dates">
-                    <p class="mb-0">작성일: {{ store.article.created_at }}</p>
-                    <p>수정일: {{ store.article.updated_at }}</p>
+                    <p class="mb-0">작성일: {{ formatDate(store.article.created_at) }}</p>
+                    <p>수정일: {{ formatDate(store.article.updated_at) }}</p>
                 </div>
             </div>
             <CommentList :article="store.article" @new-comment="handleNewComment" @delete-comment="handleDeleteComment"
@@ -49,6 +51,9 @@ onMounted(() => {
     userStore.getUser()
 })
 
+const formatDate = function (dateTime) {
+  return moment(dateTime).format('YYYY-MM-DD HH:mm:ss')
+}
 
 const addLike = function (articleId) {
     axios({
@@ -76,11 +81,13 @@ const checkLike = computed(() => {
 
 const handleNewComment = (newComment) => {
     store.article.articlecomment_set.push(newComment)
+    store.article.comment_count += 1
 }
 
 const handleDeleteComment = (commentId) => {
     const index = store.article.articlecomment_set.findIndex((comment) => comment.id === commentId)
     store.article.articlecomment_set.splice(index, 1)
+    store.article.comment_count -= 1
 }
 
 const handleUpdateComment = (updatedComment) => {

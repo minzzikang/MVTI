@@ -29,7 +29,7 @@ defineProps({
 const router = useRouter()
 
 const goDetail = function (article) {
-    // console.log(article.id)
+    // console.log(article)
     router.push({ name: 'articleDetail', params: { id: `${article.id}`}})
 }
 

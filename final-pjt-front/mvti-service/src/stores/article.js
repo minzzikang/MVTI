@@ -9,7 +9,7 @@ export const useArticleStore = defineStore('article', () => {
     const route = useRoute()
 
     const articles = ref([])
-    const article = ref('')
+    const article = ref(null)
     const API_URL = 'http://127.0.0.1:8000'
 
     const movieStore = useMovieStore()
