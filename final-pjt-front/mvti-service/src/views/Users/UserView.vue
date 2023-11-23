@@ -8,6 +8,7 @@
             <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" 
                 size="xl" style="color: #f5f5f5;"
                 @click="store.logOut"/>
+            <button class="btn btn-primary" @click="UserInfoUpdate">정보수정</button>
         <UserLikeList />
         <UserCommentMovieList />
         <UserArticleList />
@@ -47,7 +48,11 @@ onMounted(() => {
 })
 
 const goUserUpdate = function () {
-    router.push({ name: 'userUpdate'})
+    router.push({ name: 'userUpdate' })
+}
+
+const UserInfoUpdate = function () {
+    router.push({ name: 'userInfoUpdate' })
 }
 
 </script>

@@ -2,7 +2,7 @@
     <div class="d-flex p-4">
         <Navbar />
         <div class="d-flex flex-column">
-            <img :src="`https://image.tmdb.org/t/p/w300/${store.movie.poster_path}`" alt="poster">
+            <img :src="`https://image.tmdb.org/t/p/w300/${movieStore.movie.poster_path}`" alt="poster">
             <font-awesome-icon :icon="['fas', 'circle-chevron-left']"
                 style="color: #f5f5f5;" size="2xl" class="back-icon"
                 @click="goBack"/>
@@ -10,7 +10,7 @@
         </div>
         <div class="d-flex flex-column ms-3">
             <div class="title-box">
-                <h3>{{ store.movie.title }}</h3>
+                <h3>{{ movieStore.movie.title }}</h3>
                 <div v-for="(genr, index) in genrList" :key="index"
                 :class="['badge', 'text-bg', genreClass(genr.name)]">
                     {{ genr.name }}
@@ -19,11 +19,11 @@
             <div class="align-self-start">
                 <font-awesome-icon :icon="['fab', 'youtube']" style="color: red;" size="2xl" class="video-icon"/>
                 <span class="ms-2 text-secondary">예고편 보기</span>
-                <div class="badge text-warning ms-2">전문가 평점 : {{ store.movie.vote_average }}</div>
+                <div class="badge text-warning ms-2">전문가 평점 : {{ movieStore.movie.vote_average }}</div>
             </div>
             <div class="movie-infos">
                 <p>{{ shortOverview }}</p>
-                <h6>감독 : {{ store.movie.director.name }}</h6>
+                <h6>감독 : {{ movieStore.movie.director.name }}</h6>
                 <div class="d-flex flex-column">
                     <span class="mb-2 mt-2">출연진</span>
                     <h6 v-for="(actor, index) in limitActors" :key="index">
@@ -33,15 +33,14 @@
                 </div>
             </div>
             <div class="community-card">
-                <MovieReviewList class="mt-3"/>
+            <MovieReviewList :movie="movieStore.movie" @new-comment="handleNewComment" @delete-comment="handleDeleteComment"
+                @update-comment="handleUpdateComment" />
             </div>
         </div>
-        <DetailSimilarList />
     </div>
 </template>
 
 <script setup>
-import DetailSimilarList from '@/components/Movies/DetailSimilarList.vue'
 import MovieReviewList from '@/components/Movies/MovieReviewList.vue'
 import Navbar from '@/components/Movies/Navbar.vue'
 import { onMounted, ref, watch, computed } from 'vue'
@@ -49,33 +48,43 @@ import { useMovieStore } from '@/stores/movie'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const store = useMovieStore()
+const movieStore = useMovieStore()
 const actorList = ref([])
 const genrList = ref([])
 const genreClass = (genreName) => genreName.toLowerCase().replace(/\s+/g, '-');
 
 const fetchMovieDetail = async () => {
-    await store.getMovieDetail()
-    actorList.value = store.movie.actors
-    genrList.value = store.movie.genres
+    await movieStore.getMovieDetail()
+    actorList.value = movieStore.movie.actors
+    genrList.value = movieStore.movie.genres
 }
 
 onMounted(fetchMovieDetail)
-
-watch(() => store.movie, (newMovie) => {
-    actorList.value = newMovie.actors
-    genrList.value = newMovie.genres
-}, { deep: true })
 
 const limitActors = computed(() => {
     return actorList.value.slice(0, 3)
 })
 
 const shortOverview = computed(() => {
-    return store.movie.overview.length > 150
-    ? store.movie.overview.slice(0, 150) + '...중략'
-    : store.movie.overview
+    return movieStore.movie.overview.length > 150
+    ? movieStore.movie.overview.slice(0, 150) + '...중략'
+    : movieStore.movie.overview
 })
+
+const handleNewComment = (newComment) => {
+    movieStore.movie.moviecomment_set.push(newComment)
+}
+
+const handleDeleteComment = (commentId) => {
+    const index = movieStore.movie.moviecomment_set.findIndex((comment) => comment.id === commentId)
+    movieStore.movie.moviecomment_set.splice(index, 1)
+}
+
+const handleUpdateComment = (updatedComment) => {
+    console.log(updatedComment)
+    const index = movieStore.movie.moviecomment_set.findIndex((comment) => comment.id === updatedComment.id)
+    movieStore.movie.moviecomment_set[index] = updatedComment
+}
 
 const goBack = function () {
     router.push({ name: 'recommend' })

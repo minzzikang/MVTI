@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        <p style="color: white;">회원 정보 수정</p>
     </div>
 </template>
 
@@ -8,6 +8,6 @@
 
 </script>
 
-<style scoped>
+<style  scoped>
 
 </style>

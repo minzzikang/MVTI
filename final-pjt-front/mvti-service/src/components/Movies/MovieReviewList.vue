@@ -1,42 +1,126 @@
 <template>
     <div class="card">
-        <form @submit.prevent="reviewStore.createReview" class="d-flex">
+        <form @submit.prevent="createComment" class="d-flex">
             <div class="input-group">
-                <input type="number" class="form-control" v-model.number="reviewStore.rating"
+                <input type="number" class="form-control" v-model.number="rating"
                     min="0" max="10" placeholder="평점 (0~10)">
-                <input type="text" class="form-control" v-model.trim="reviewStore.content"
+                <input type="text" class="form-control" v-model.trim="content"
                     placeholder="한 줄 리뷰 남기기">
                 <input type="submit" value="등록" class="btn btn-dark">
             </div>
         </form>
-        <MovieReviewCard 
-            v-for="review in filterReviews"
-            :key="review.id"
-            :review="review"/>
+        <p v-for="comment in movie.moviecomment_set"
+            :key="comment.id"
+            :comment="comment">
+            <div v-if="isEditing[comment.id]" class="comment-group">
+                <input type="number" v-model="editingContent[comment.id].rating" class="form-control" />
+                <input type="text" v-model="editingContent[comment.id].content" class="form-control" />
+                <font-awesome-icon :icon="['fas', 'circle-check']" size='xl' class="ms-3"
+                    @click="saveEdit(comment.id)"/>
+                <font-awesome-icon :icon="['fas', 'circle-xmark']" size='xl' class="ms-2"
+                    @click="cancelEdit(comment.id)"/>
+            </div>
+            <div v-else>
+                <span class="fw-bold">{{ comment.rating }}</span>
+                <span class="ms-4">{{ comment.content }}</span>
+                <font-awesome-icon :icon="['fas', 'pen']" style="color: #aaaaaa;" class="ms-4" 
+                    @click="startEdit(comment)"/>
+                <font-awesome-icon :icon="['fas', 'trash-can']" style="color: #aaaaaa;" class="ms-3"
+                    @click="deleteComment(comment.id)"/>
+            </div>
+            <hr>
+        </p>
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue'
+import axios from 'axios'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import MovieReviewCard from './MovieReviewCard.vue'
-import { useReviewStore } from '@/stores/review'
+import { useMovieStore } from '@/stores/movie'
 
-const reviewStore = useReviewStore()
 const route = useRoute()
+const movieStore = useMovieStore()
+const rating = ref(null)
+const content = ref('')
+const emit = defineEmits(['newComment', 'deleteComment', 'updateComment'])
 
-onMounted(() => {
-    reviewStore.getReviews()
+const props = defineProps({
+    movie: Object
 })
 
-watch(() => route.params.id, () => {
-    reviewStore.getReviews();
-}, { immediate: true });
+const movieId = ref(route.params.id)
+const isEditing = ref({})
+const editingContent = ref({})
 
-const filterReviews = computed(() => {
-    const movieId = route.params.id
-    return reviewStore.reviews.filter(review => review.movieId === movieId)
-})
+const startEdit = (comment) => {
+    isEditing.value[comment.id] = true
+    editingContent.value[comment.id] = {content: comment.content, rating: comment.rating}
+    console.log(editingContent.value)
+}
+
+const saveEdit = (commentId) => {
+    updateComment(commentId, editingContent.value[commentId])
+    isEditing.value[commentId] = false
+}
+
+const cancelEdit = (commentId) => {
+    isEditing.value[commentId] = false
+}
+
+const createComment = function () {
+    axios({
+        method: 'post',
+        url: `${movieStore.API_URL}/api/v1/movies/${movieId.value}/comment`,
+        data: {
+            movie: route.params.id,
+            rating : rating.value,
+            content: content.value
+        },
+        headers: {
+            Authorization: `Token ${movieStore.token}`
+        },
+    }).then(res => {
+        emit('newComment', res.data)
+        content.value = ''
+        rating.value = ''
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+const updateComment = function (commentId, newContent) {
+    axios({
+        method: 'put',
+        url: `${movieStore.API_URL}/api/v1/movies/comment/${commentId}`,
+        data: {
+            content: newContent.content,
+            rating: newContent.rating
+        },
+        headers: {
+            Authorization: `Token ${movieStore.token}`
+        }
+    }).then(res => {
+        emit('updateComment', res.data)
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+const deleteComment = function (commentId) {
+    axios({
+        method: 'delete',
+        url: `${movieStore.API_URL}/api/v1/movies/comment/${commentId}`,
+        headers: {
+            Authorization: `Token ${movieStore.token}`
+        }
+    }).then(res => {
+        emit('deleteComment', commentId)
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
 </script>
 
 <style scoped>
