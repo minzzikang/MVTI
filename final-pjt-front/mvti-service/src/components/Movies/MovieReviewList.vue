@@ -21,7 +21,8 @@
                     @click="cancelEdit(comment.id)"/>
             </div>
             <div v-else>
-                <span class="fw-bold">{{ comment.rating }}</span>
+                <span>{{ comment.username }}</span>
+                <span class="rating fw-bold ms-3">{{ comment.rating }}점</span>
                 <span class="ms-4">{{ comment.content }}</span>
                 <font-awesome-icon :icon="['fas', 'pen']" style="color: #aaaaaa;" class="ms-4" 
                     @click="startEdit(comment)"/>
@@ -141,6 +142,11 @@ h6 {
     color: #f5f5f5;
 }
 
+.rating {
+    background-color: rgba(255, 255, 0, 0.47);
+    border-radius: 5px;
+    width: 20px;
+}
 .btn {
     white-space: nowrap;
 }

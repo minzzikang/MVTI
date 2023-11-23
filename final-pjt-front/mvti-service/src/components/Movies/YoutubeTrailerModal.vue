@@ -10,16 +10,16 @@
 
       <div class="modal-wrap" v-show="isModalView">
         <div class="modal-container">
-          <p>{{ movie.trailer_key }}</p>
           <iframe
           :key="youtubeTrailer"
           id="ytplayer"
           type="text/html"
           width="720"
-          height="405"
+          height="400"
           :src="`https://www.youtube.com/embed/${youtubeTrailer}`"
           frameborder="0" allowfullscreen="allowfullscreen"></iframe>
-          <button @click="isModalViewed(event)">닫기</button>
+          <button type="button" class="btn-close" aria-label="Close"
+          @click="isModalViewed(event)"></button>
         </div>
       </div>
     </div>
@@ -67,6 +67,14 @@ const youtubeTrailer = computed(() => {
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
+}
+
+.btn-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: white;
+  border: 1px solid #ccc;
 }
 
 </style>

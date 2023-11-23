@@ -35,6 +35,8 @@
                 <font-awesome-icon :icon="[checkLike ? 'fas' : 'far', 'heart']"
                     @click="addLike(movieStore.movie.id)" class="heart-icon"/>
                 <span class="text-white ms-2">{{ movieStore.movie.like_count }}</span>
+                <font-awesome-icon :icon="['fas', 'star']" style="color: #ffd500;" class="ms-3"/>
+                <span class="ms-2">{{ averageRating }}</span>
             </div>
             <div class="community-card">
             <MovieReviewList :movie="movieStore.movie" @new-comment="handleNewComment" @delete-comment="handleDeleteComment"
@@ -63,6 +65,11 @@ const genreClass = (genreName) => genreName.toLowerCase().replace(/\s+/g, '-');
 onMounted(() => {
     movieStore.getMovieDetail()
     userStore.getUser()
+    const total = ref(0)
+    const ratings = movieStore.movie.moviecomment_set.forEach(item => {
+        total.value += item.rating
+    })
+    console.log(total.value)
 })
 
 const limitActors = computed(() => {
@@ -90,6 +97,22 @@ const addLike = function (movieId) {
                 console.error(err)
             })
 }
+
+
+const averageRating = computed(() => {
+    const total = ref(0)
+    const len = ref(0)
+    movieStore.movie.moviecomment_set.forEach(item => {
+        total.value += item.rating
+        len.value += 1
+    })
+    if (total.value) {
+        return (total.value / len.value).toFixed(2)
+    } else {
+        return '평점을 남겨주세요.'
+    }
+
+})
 
 const checkLike = computed(() => {
     if (movieStore.movie.movie_like_users.includes(userStore.user.pk)) {
