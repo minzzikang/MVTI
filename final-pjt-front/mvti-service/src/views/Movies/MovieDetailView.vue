@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex p-4">
+    <div class="d-flex p-4" v-if="movieStore.movie">
         <Navbar />
         <div class="d-flex flex-column">
             <img :src="`https://image.tmdb.org/t/p/w300${movieStore.movie.poster_path}`" alt="poster">
@@ -65,10 +65,13 @@ const genreClass = (genreName) => genreName.toLowerCase().replace(/\s+/g, '-');
 onMounted(() => {
     movieStore.getMovieDetail()
     userStore.getUser()
+    console.log(movieStore.movie.moviecomment_set)
     const total = ref(0)
-    const ratings = movieStore.movie.moviecomment_set.forEach(item => {
-        total.value += item.rating
-    })
+    if (movieStore.movie.moviecomment_set) {
+        const ratings = movieStore.movie.moviecomment_set.forEach(item => {
+            total.value += item.rating
+        })
+    }
     console.log(total.value)
 })
 
