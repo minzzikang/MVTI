@@ -133,9 +133,10 @@ const deleteComment = function (commentId) {
     position: relative;
 }
 
-.input-group {
+.input-group, .comment-group {
     display: flex;
     margin-bottom: 10px;
+    align-items: center;
 }
 
 h6 {

@@ -2,16 +2,16 @@
     <div class="d-flex">
         <Navbar />
         <div>
-            <div v-if="userStore.user.mbti" class="d-flex flex-column">
+            <div v-if="userStore.user.mbti" class="mbti d-flex flex-column">
                 <RecommendMbtiList class="ms-3" />
             </div>
             <div v-else class="d-flex flex-column">
                 <NoMbti class="ms-3" />
             </div>
-            <div class="d-flex flex-column">
+            <div class="today d-flex flex-column">
                 <RecommendTodayList class="ms-3" />
             </div>
-            <div class="d-flex flex-column">
+            <div class="age d-flex flex-column">
                 <RecommendAgeList class="ms-3" />
             </div>
         </div>
@@ -42,5 +42,10 @@ onMounted(() => {
 .nav-bar {
     position: sticky;
     top: 0;
+}
+
+.mbti, .today, .age {
+    overflow-x: auto;
+    white-space: nowrap;
 }
 </style>

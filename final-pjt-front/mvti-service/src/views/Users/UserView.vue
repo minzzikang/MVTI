@@ -12,8 +12,17 @@
                 
             <div class="d-flex flex-column">
                 <UserLikeList />
+                <hr>
+            </div>
+            <div class="d-flex flex-column">           
                 <UserCommentMovieList />
+                <hr>
+            </div>
+            <div class="d-flex flex-column"> 
                 <UserArticleList />
+                <hr>
+            </div>
+            <div class="d-flex flex-column"> 
                 <UserCommentArticleList />
             </div>
         </div>

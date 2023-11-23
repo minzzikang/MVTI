@@ -1,10 +1,12 @@
 <template>
-    <div class="d-flex">
+    <div>
         <p>찜한 영화</p>
-        <UserLikeCard
-        v-for="movie in userLikeMovie"
-        :key="movie.id"
-        :movie="movie"/>
+        <div class="d-flex">
+            <UserLikeCard
+            v-for="movie in userLikeMovie"
+            :key="movie.id"
+            :movie="movie"/>
+        </div>
     </div>
 </template>
 
