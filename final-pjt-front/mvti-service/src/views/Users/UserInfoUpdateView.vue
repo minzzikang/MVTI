@@ -55,7 +55,25 @@ onMounted(() => {
 })
 
 const updateUser = function () {
-    axios({
+    if ((mbti.value === 'ISTJ'
+        || mbti.value === 'ISFJ'
+        || mbti.value === 'INFJ'
+        || mbti.value === 'INTJ'
+        || mbti.value === 'ISTP'
+        || mbti.value === 'ISFP'
+        || mbti.value === 'INFP'
+        || mbti.value === 'INTP'
+        || mbti.value === 'ESTP'
+        || mbti.value === 'ESFP'
+        || mbti.value === 'ENFP'
+        || mbti.value === 'ENTP'
+        || mbti.value === 'ESTJ'
+        || mbti.value === 'ESFJ'
+        || mbti.value === 'ENFJ'
+        || mbti.value === 'ENTJ'
+        || mbti.value === '')
+    ){
+        axios({
         method: 'put',
         url: `${movieStore.API_URL}/accounts/userupdate/${userStore.user.pk}`,
         data: {
@@ -66,12 +84,24 @@ const updateUser = function () {
         headers: {
             Authorization: `Token ${movieStore.token}`
         }
-    }).then(res => {
-        alert('회원 정보가 수정되었습니다.')
-        router.push({ name: 'user'})
-    }).catch(err => {
-        console.log(err)
-    })
+        }).then(res => {
+            if (age.value < 10) {
+                alert(`${age.value}살이요? 정말 어리시네용 믿습니다 ㅎㅎ`)
+            } else if (age.value > 100) {
+                alert(`${age.value}세시라구요? 저희 서비스를 잘 즐겨주시기 바랍니다.`)
+            } else {
+                alert('회원 정보가 수정되었습니다.')
+            }
+            router.push({ name: 'user'})
+        }).catch(err => {
+            console.log(err.response.data.age[0])
+            if (err.response.data.age[0] === '유효한 정수(integer)를 넣어주세요.') {
+                alert('웬만하면 나이는 입력해 주시는게...')
+            }
+        })
+    } else {
+        alert('MBTI 입력 안하실거면 빈칸으로 두는게...')
+    }
 }
 </script>
 
