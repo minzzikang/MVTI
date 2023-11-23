@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h3 class="text-white mb-3 mt-3">{{ userStore.user.mbti }}가 선호한 영화!</h3>
+        <h3 class="text-white mb-3 mt-3">{{ userStore.user.mbti }}가 좋아하는 영화!</h3>
         <div class="d-flex">
             <RecommendMbtiCard
                 v-for="movie in movieList"
