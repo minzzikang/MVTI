@@ -7,10 +7,12 @@
             </div>
             <p>{{ store.article.username }}</p>
             <h5>{{ store.article.content }}</h5>
-            <div class="d-flex justify-content-between align-items-center">
-                <font-awesome-icon :icon="[userStore.isLike ? 'fas' : 'far', 'heart']"
-                     @click="addLike(store.article.id)"/>
-                    {{ store.article.like_count }}
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <font-awesome-icon :icon="[userStore.isLike ? 'fas' : 'far', 'heart']"
+                        @click="addLike(store.article.id)"/>
+                        {{ store.article.like_count }}
+                </div>
                 <div class="dates">
                     <p class="mb-0">작성일: {{ store.article.created_at }}</p>
                     <p>수정일: {{ store.article.updated_at }}</p>

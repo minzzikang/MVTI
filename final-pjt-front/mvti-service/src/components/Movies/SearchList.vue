@@ -1,14 +1,16 @@
 <template>
-    <div>
-        <form @submit.prevent="searchMovie" class="form-control search-form">
+    <div class="d-flex flex-column">
+        <form @submit.prevent="searchMovie" class="search-form">
             <input type="text" placeholder="검색어를 입력하세요"
                 v-model="inputText" class="input">
-            <input type="submit" class="btn btn-primary btn-sm ms-2" value="찾기">
+            <input type="submit" class="btn btn-secondary btn ms-2" value="찾기">
         </form>
-        <SearchCard 
-            v-for="movie in searchList"
-            :key="movie.id"
-            :movie="movie"/>
+        <div class="card-container">
+            <SearchCard 
+                v-for="movie in searchList"
+                :key="movie.id"
+                :movie="movie"/>
+        </div>
     </div>
 </template>
 
@@ -81,8 +83,20 @@ const searchMovie = function () {
     justify-content: center;
     align-items: center;
     margin: 20px 0;
+    padding: 10px;
+    border-radius: 5px;
 }
 .input {
     width: 50%;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    border-radius: 4px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 </style>
