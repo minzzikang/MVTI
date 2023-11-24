@@ -51,11 +51,22 @@ const userUpdate = function () {
             Authorization: `Token ${store.token}`
         }
     }).then(res => {
-        alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.')
+        alert('비밀번호 변경 완-, 재 로그인 요망-')
         router.push({ name: 'home' })
     }).catch(err => {
-        console.log(err)
-    })
+        for (let i = 0; i < Object.values(err.response.data.new_password2).length; i++) {
+            if (Object.values(err.response.data.new_password2)[i] === '비밀번호가 username와 너무 유사합니다.') {
+                alert('아이디랑 비밀번호 비슷하면 금방 뚫려요 ㅠㅠ')
+            } else if (Object.values(err.response.data.new_password2)[i] === '비밀번호가 너무 짧습니다. 최소 8 문자를 포함해야 합니다.') {
+                alert('비밀번호 짧으면 금방 뚫려용 ㅠㅠ')
+            } else if (Object.values(err.response.data.new_password2)[i] === '비밀번호가 너무 일상적인 단어입니다.') {
+                alert('비밀번호 이렇게 쉬우면 금방 뚫려용;')
+            } else {
+                alert(err.response.data.new_password2[i])
+            }
+		}
+        }
+    )
 }
 </script>
 
