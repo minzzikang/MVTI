@@ -23,9 +23,9 @@
             <CommentList :article="store.article" @new-comment="handleNewComment" @delete-comment="handleDeleteComment"
                 @update-comment="handleUpdateComment" />
             <div class="d-flex align-items-center justify-content-end">
-                <font-awesome-icon :icon="['fas', 'pen']" class="ms-2" @click="goEdit" />
+                <font-awesome-icon :icon="['fas', 'pen']" class="ms-2" @click="goEdit" v-if="store.article.user === userStore.user.pk"/>
                 <font-awesome-icon :icon="['fas', 'trash-can']" class="ms-3"
-                    @click="store.deleteArticle(store.article.id)" />
+                    @click="store.deleteArticle(store.article.id)" v-if="store.article.user === userStore.user.pk"/>
             </div>
         </div>
     </div>
@@ -79,6 +79,8 @@ const checkLike = computed(() => {
     }
 })
 
+console.log(store.article.user)
+console.log(userStore.user.pk)
 const handleNewComment = (newComment) => {
     store.article.articlecomment_set.push(newComment)
     store.article.comment_count += 1

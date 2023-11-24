@@ -25,9 +25,11 @@
                 <span class="rating fw-bold ms-3">{{ comment.rating }}점</span>
                 <span class="ms-4">{{ comment.content }}</span>
                 <font-awesome-icon :icon="['fas', 'pen']" style="color: #aaaaaa;" class="ms-4" 
-                    @click="startEdit(comment)"/>
+                    @click="startEdit(comment)"
+                    v-if="checkComment"/>
                 <font-awesome-icon :icon="['fas', 'trash-can']" style="color: #aaaaaa;" class="ms-3"
-                    @click="deleteComment(comment.id)"/>
+                    @click="deleteComment(comment.id)"
+                    v-if="checkComment"/>
             </div>
             <hr>
         </p>
@@ -36,15 +38,16 @@
 
 <script setup>
 import axios from 'axios'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMovieStore } from '@/stores/movie'
-
+import { useUserStore } from '@/stores/user'
 const route = useRoute()
 const movieStore = useMovieStore()
 const rating = ref(null)
 const content = ref('')
 const emit = defineEmits(['newComment', 'deleteComment', 'updateComment'])
+const userStore = useUserStore()
 
 const props = defineProps({
     movie: Object
@@ -121,6 +124,15 @@ const deleteComment = function (commentId) {
         console.log(err)
     })
 }
+
+const checkComment = computed(() => {
+    if (movieStore.movie.moviecomment_set.some(comment => comment.user === userStore.user.pk)) {
+        return true
+    } else {
+        return false
+    }
+})
+console.log(movieStore.movie.moviecomment_set)
 
 </script>
 
