@@ -98,7 +98,7 @@ export const useMovieStore = defineStore('movie', () => {
 			if (mbti.includes('T')) {
 				alert('죄송함당 ㅎㅎ 회원이 되신 걸 환영합니다!')
 			} else {
-				alert('회원이 되신 걸 환영합니다!')
+				alert('F시네용ㅎㅎ 회원이 되신 걸 환영합니다!')
 			}
 			if (age <= 10 || age >= 100) {
 				alert(`${payload.age}살 맞죵? ㅎㅎ; 거짓말이라면 회원정보에서 수정 부탁드립니다 ㅎㅎ`)
@@ -117,6 +117,8 @@ export const useMovieStore = defineStore('movie', () => {
 						alert('비밀번호 이렇게 쉬우면 금방 뚫려용;')
 					} else if (Object.values(err.response.data)[i][j] === '두 개의 패스워드 필드가 서로 맞지 않습니다.') {
 						alert('비밀번호가 틀리다네용;')
+					} else if (Object.values(err.response.data)[i][j] === '이 필드는 blank일 수 없습니다.') {
+						alert('비밀번호는 입력하셔야죵;')
 					} else {
 						alert(Object.values(err.response.data)[i][j])
 					}

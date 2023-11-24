@@ -90,7 +90,7 @@ const updateUser = function () {
             } else if (age.value > 100) {
                 alert(`${age.value}세시라구요? 저희 서비스를 잘 즐겨주시기 바랍니다.`)
             } else {
-                alert('회원 정보가 수정되었습니다.')
+                alert('회원 정보 수정 완-')
             }
             router.push({ name: 'user'})
         }).catch(err => {

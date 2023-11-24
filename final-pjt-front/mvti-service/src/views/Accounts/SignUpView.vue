@@ -73,7 +73,7 @@ const signUp = function () {
         }
         store.signUp(payload)
     } else {
-        alert('차라리 빈칸을 입력하세요...')
+        alert('MBTI는 차라리 빈칸을 입력하세요...')
     }
 }
 </script>
