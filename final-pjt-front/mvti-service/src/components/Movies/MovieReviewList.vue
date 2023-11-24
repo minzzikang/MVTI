@@ -20,17 +20,15 @@
                 <font-awesome-icon :icon="['fas', 'circle-xmark']" size='xl' class="ms-2"
                     @click="cancelEdit(comment.id)"/>
             </div>
-            <div v-else>
                 <span>{{ comment.username }}</span>
                 <span class="rating fw-bold ms-3">{{ comment.rating }}점</span>
                 <span class="ms-4">{{ comment.content }}</span>
                 <font-awesome-icon :icon="['fas', 'pen']" style="color: #aaaaaa;" class="ms-4" 
                     @click="startEdit(comment)"
-                    v-if="checkComment"/>
+                    v-if="comment.user === userStore.user.pk"/>
                 <font-awesome-icon :icon="['fas', 'trash-can']" style="color: #aaaaaa;" class="ms-3"
                     @click="deleteComment(comment.id)"
-                    v-if="checkComment"/>
-            </div>
+                    v-if="comment.user === userStore.user.pk"/>
             <hr>
         </p>
     </div>
@@ -124,15 +122,6 @@ const deleteComment = function (commentId) {
         console.log(err)
     })
 }
-
-const checkComment = computed(() => {
-    if (movieStore.movie.moviecomment_set.some(comment => comment.user === userStore.user.pk)) {
-        return true
-    } else {
-        return false
-    }
-})
-console.log(movieStore.movie.moviecomment_set)
 
 </script>
 

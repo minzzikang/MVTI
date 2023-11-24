@@ -79,8 +79,6 @@ const checkLike = computed(() => {
     }
 })
 
-console.log(store.article.user)
-console.log(userStore.user.pk)
 const handleNewComment = (newComment) => {
     store.article.articlecomment_set.push(newComment)
     store.article.comment_count += 1

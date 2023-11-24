@@ -10,8 +10,6 @@
             </div>
             <div class="d-flex align-items-center">
                 <p class="mt-3">{{ article.username }}</p>
-                <font-awesome-icon :icon="['fas', 'house-user']" class="ms-2"
-                    @click="goUserView" />
             </div>
             <hr>
         </div>
@@ -33,9 +31,6 @@ const goDetail = function (article) {
     router.push({ name: 'articleDetail', params: { id: `${article.id}`}})
 }
 
-const goUserView = function () {
-    router.push({ name: 'user'})
-}
 </script>
 
 <style scoped>
