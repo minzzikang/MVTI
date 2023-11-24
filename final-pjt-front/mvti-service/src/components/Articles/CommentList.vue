@@ -20,9 +20,11 @@
                 <span class="fw-bold">{{ comment.username }}</span>
                 <span class="ms-4">{{ comment.content }}</span>
                 <font-awesome-icon :icon="['fas', 'pen']" style="color: #aaaaaa;" class="ms-4" 
-                    @click="startEdit(comment)"/>
+                    @click="startEdit(comment)"
+                    v-if="checkComment"/>
                 <font-awesome-icon :icon="['fas', 'trash-can']" style="color: #aaaaaa;" class="ms-3"
-                    @click="deleteComment(comment.id)"/>
+                    @click="deleteComment(comment.id)"
+                    v-if="checkComment"/>
             </div>
             <hr>
         </p>
@@ -31,19 +33,30 @@
 
 <script setup>
 import axios from 'axios'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
 import { useMovieStore } from '@/stores/movie'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const store = useArticleStore()
 const movieStore = useMovieStore()
+const userStore = useUserStore()
 const content = ref('')
 const emit = defineEmits(['newComment', 'deleteComment', 'updateComment'])
 
 const props = defineProps({
     article: Object
+})
+
+
+const checkComment = computed(() => {
+    if (store.article.articlecomment_set.some(comment => comment.id === userStore.user.pk)) {
+        return true
+    } else {
+        return false
+    }
 })
 
 const articleId = ref(route.params.id)
