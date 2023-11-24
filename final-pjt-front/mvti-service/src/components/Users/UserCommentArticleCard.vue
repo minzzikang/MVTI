@@ -21,6 +21,7 @@ const goArticle = function (article) {
 
 <style scoped>
 .card {
+    transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,5 +29,8 @@ const goArticle = function (article) {
     width: 100px;
     height: 100px;
     text-align: center;
+}
+.card:hover {
+    transform: scale(1.03);
 }
 </style>

@@ -20,6 +20,14 @@ defineProps({
 </script>
 
 <style scoped>
+.d-flex {
+    transition: transform 0.3s ease;
+}
+
+.d-flex:hover {
+    transform: scale(1.03);
+}
+
 img {
     width: 200px;
     height: 300px;

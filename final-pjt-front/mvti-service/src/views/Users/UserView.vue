@@ -4,7 +4,7 @@
         <div class="ms-4 mt-3 d-flex flex-column" style="color: #f5f5f5;">
             <div class="d-flex align-items-center mb-3">
                 <h3 class="me-3">{{ user.username }} 님의 프로필</h3>
-                <button class="btn btn-secondary btn-sm" @click="UserInfoUpdate">정보수정</button>
+                <button class="btn2 btn btn-secondary btn-sm" @click="UserInfoUpdate">정보수정</button>
                 <button class="btn btn-danger btn-sm" @click="signout">회원탈퇴</button>
                 <font-awesome-icon :icon="['fas', 'key']" size="xl" style="color: #f5f5f5;"
                     class="icon ms-3 mt-2" @click="goUserUpdate"/>
@@ -114,5 +114,15 @@ h3 {
 
 .btn:hover {
     background-color: #911b00;
+}
+
+.btn2 {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn2:hover {
+    background-color: darkslategray;
 }
 </style>

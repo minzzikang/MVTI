@@ -22,7 +22,12 @@ const goDetail = function(movie) {
 
 <style scoped>
 img {
+    transition: transform 0.3s ease;
     width: 150px;
     height: 200px;
+}
+
+img:hover {
+   transform: scale(1.03);
 }
 </style>

@@ -23,8 +23,13 @@ defineProps({
 <style scoped>
 
 img {
+    transition: transform 0.3s ease;
     max-width: 200px;
     height: 300px;
     margin: 10px;
+}
+
+img:hover {
+   transform: scale(1.03);
 }
 </style>
