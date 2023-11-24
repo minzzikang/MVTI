@@ -71,10 +71,16 @@ npm run dev
 ![component](컴포넌트 관계.png)
 
 ### :boom: 이슈 관리
-| 날짜 | 담당자 | 내용 | 해결 방법(원인) |
-| --- | ----- | ---- | -------------- |
-|     |       |      |                |
-
+| 날짜 | 담당자 |   내용                        | 해결 방법(원인) |
+|  --- | ----- |   ----                        | -------------- |
+| 1117 | 김민욱 |오류코드: RuntimeError: You calledthis URL via POST , but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/api/v1/getdata/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.| url주소 마지막에 '/'를 붙여 주었다. 그리고 나서 또 다시 에러가 발생 |
+| 1117 | 김민욱 |오류코드: AssertionError: Expected a Response, HttpResponse or HttpStreamingResponse to be returned from the view, but received a <class 'NoneType'>| view.py에서 Response를 안해줘서 발생한 오류 |
+| 1117 | 김민욱 |오류코드: django.core.exceptions.ImproperlyConfigured: Requested setting REST_FRAMEWORK, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.| 장고 환경에서 api키로 데이터 가져올 때 views.py 파일에서 python환경을 실행시키면 오류가 나온다. => print를 함수 안에 집어 넣고 서버를 실행시켜서 확인해야 한다. |
+| 1120 | 김민욱 |loaddata가 잘 안됨| dumpdata를 할 때 model에 어떤 모델에 load될지 써줘야 하고, fields에 어떤 데이터가 load돼야 하는지 써줘야함 |
+| 1121 | 김민욱 |영화추천 서비스를 위해 필요한 필드들이 부족했음| TMDB api에서 데이터를 받아올 때 여러 api 정보를 이용해서 영화 추천을 위한 필드들을 추가하여 받아옴 |
+| 1122 | 김민욱 |게시글, 영화 좋아요 버튼이 새로고침하면 좋아요가 된 상태인데도 불구하고 색깔이 바뀜|computed를 활용하고 movie_like_users, article_like_users를 활용하여 해결|
+| 1122 | 김민욱 |dj-rest-auth를 활용하여 회원가입을 하는데 회원 조회할 때 기본적으로 주어진 필드만 나옴|dj-rest-auth는 유저를 조회할 때 다른 srializer를 사용해 줘야함 => 다른 serializer 만들고 => 장고 settings.py에 'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer' 추가|
+| 1123 | 김민욱 |영화 추천 첫화면이 새로고침을 해야만 나옴|기존에 for문과 if문을 활용한 추천 알고리즘이 아닌 computed와 fiter를 사용하여 해결|
 ### :thought_balloon: 느낀점
 #### 강민지
 
