@@ -64,13 +64,38 @@ npm run dev
 | 커뮤니티 | 댓글 | 댓글 작성, 수정, 삭제 | 강민지 |
 | 유저페이지 | 사용자 | - 좋아요한 영화 조회<br>- 평점 남긴 영화 조회<br>- 좋아요한 게시글 조회<br>- 댓글 남긴 게시글 조회 | 김민욱 |
 
+#### 로그인/회원가입
+![login](images/login.PNG)
+![signup](images/signup.PNG)
 
+#### 메인화면
+![main](images/main1.PNG)
+![main](images/main2.PNG)
+
+#### 영화 검색
+![serach](images/search.PNG)
+
+#### 영화 정보 조회
+![detail](images/detail.PNG)
+![detail](images/trailer.PNG)
+![review](images/review.PNG)
+
+#### 커뮤니티
+![community](images/community_main.PNG)
+![community](images/community_detail.PNG)
+![community](images/community_write.PNG)
+![community](images/community_modify.PNG)
+
+#### 마이페이지
+![mypage](images/mypage.PNG)
+![mypage](images/mypage_modify.PNG)
+![mypage](images/new_password.PNG)
 
 ### :closed_book: 데이터베이스 모델링 (ERD)
-![erd](ERD.png)
+![erd](images/ERD.png)
 
 ### :green_book: 컴포넌트 구조
-![component](컴포넌트관계.png)
+![component](images/component.png)
 
 ### :boom: 이슈 관리
 | 날짜 | 담당자 |   내용                        | 해결 방법(원인) |
